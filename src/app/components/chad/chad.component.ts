@@ -12,7 +12,7 @@ import {ToastService} from "../../services/toast.service";
 export class ChadComponent implements AfterViewInit, OnInit {
 
     // TODO: refactor html
-    // TODO: better way for f*cking FormGroup?!
+    // TODO: custom scrollbar
 
     @ViewChild('chad', {static: false}) container: ElementRef;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageModel>;

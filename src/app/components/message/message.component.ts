@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, QueryList, ViewChildren} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TmiService} from "../../services/tmi.service";
 
 @Component({
@@ -7,27 +7,15 @@ import {TmiService} from "../../services/tmi.service";
     templateUrl: './message.component.html',
     styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements AfterViewInit {
+export class MessageComponent {
 
-    @ViewChildren('channelsOutput') channelsOutput: QueryList<string>;
-
-    input: FormGroup;
+    messageForm: FormGroup;
 
     constructor(private tmiService: TmiService,
                 private formBuilder: FormBuilder) {
-        this.input = this.formBuilder.group({
-            channel: '',
-            message: ''
-        });
-    }
-
-    ngAfterViewInit(): void {
-        this.channelsOutput.changes.subscribe(data => {
-            if (!this.input.value.channel && data.length) {
-                this.input.reset({
-                    channel: data.first.nativeElement.value
-                });
-            }
+        this.messageForm = this.formBuilder.group({
+            channel: ['', Validators.required],
+            message: ['', Validators.required]
         });
     }
 
@@ -36,10 +24,14 @@ export class MessageComponent implements AfterViewInit {
     }
 
     send(): void {
-        this.tmiService.send(this.input.value.channel, this.input.value.message);
-        this.input.reset({
-            channel: this.input.value.channel
+        this.tmiService.send(this.getMessageFormValues().channel, this.getMessageFormValues().message);
+        this.messageForm.reset({
+            channel: this.getMessageFormValues().channel
         });
+    }
+
+    private getMessageFormValues(): any {
+        return this.messageForm.value;
     }
 
 }

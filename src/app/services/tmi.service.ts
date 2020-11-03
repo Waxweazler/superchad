@@ -58,7 +58,7 @@ export class TmiService {
     }
 
     private parseEmotes(text, emotes): string {
-        var splitText = Array.from(text);// TODO text.split('');
+        var splitText = Array.from(text);
         for (var i in emotes) {
             var e = emotes[i];
             for (var j in e) {

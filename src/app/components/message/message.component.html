@@ -1,14 +1,14 @@
-<form [formGroup]="input" (ngSubmit)="send()">
+<form [formGroup]="messageForm" (ngSubmit)="send()">
     <div class="input-group">
         <div class="input-group-prepend">
-            <select id="channelSelect" formControlName="channel" class="form-control">
-                <option *ngFor="let channel of getChannels()" value="{{channel}}"
-                        #channelsOutput>{{channel}}</option>
+            <select formControlName="channel" class="form-control">
+                <option value="">Select channel...</option>
+                <option *ngFor="let channel of getChannels();" value="{{channel}}">{{channel}}</option>
             </select>
         </div>
         <input type="text" formControlName="message" class="form-control" placeholder="Enter message">
         <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">Send</button>
+            <button class="btn btn-primary" type="submit" [disabled]="!messageForm.valid">Send</button>
         </div>
     </div>
 </form>
