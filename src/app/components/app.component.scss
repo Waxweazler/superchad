@@ -1,8 +1,20 @@
 .card {
-  $padding: 5%;
+  $padding: 100px;
+  border: none;
   bottom: $padding;
   left: $padding;
   position: fixed;
   right: $padding;
   top: $padding;
+
+  &-header, &-footer {
+    background-color: #9147ff;
+    color: #fff;
+  }
+
+  &-header {
+    font-family: 'Press Start 2P', serif;
+    text-align: center;
+    text-transform: uppercase;
+  }
 }
