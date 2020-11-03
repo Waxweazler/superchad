@@ -4,6 +4,7 @@ import {Subject} from "rxjs";
 import {MessageType} from "../type/message.type";
 import {Client} from "tmi.js";
 import {TmiConfiguration} from "../configuration/tmi.configuration";
+import {UserModel} from "../model/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -17,8 +18,9 @@ export class TmiService {
         this.messageSubject.subscribe(observer);
         this.client.on('connected', (address, port) => {
             const message = new MessageModel();
-            message.message = `Connected to ${address}:${port} as ${this.client.getUsername()}`;
+            message.message = `Connected to ${address}:${port}`;
             message.type = MessageType.SYSTEM;
+            message.user.name = this.client.getUsername();
             this.messageSubject.next(message);
         });
         this.client.connect().then(_ => {
@@ -27,6 +29,7 @@ export class TmiService {
                 const message = new MessageModel();
                 message.message = `You joined ${channel}`;
                 message.type = MessageType.SYSTEM;
+                message.user.name = this.client.getUsername();
                 this.messageSubject.next(message);
             });
             this.client.on('chat', (channel, tags, text, self) => {

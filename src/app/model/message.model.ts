@@ -3,9 +3,9 @@ import {MessageType} from "../type/message.type";
 
 export class MessageModel {
 
-    channel: String;
-    user: UserModel;
-    message: String;
+    channel: string;
+    user: UserModel = new UserModel();
+    message: string;
     self: boolean;
     type: MessageType;
 

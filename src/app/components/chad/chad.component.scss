@@ -5,14 +5,19 @@
   position: fixed;
   right: $padding;
   top: $padding;
+
+  &-body {
+    overflow-y: auto;
+  }
 }
 
-.card-body {
-  overflow-y: auto;
+.list-group-item {
+  cursor: pointer;
 }
 
-#status {
-  bottom: 0;
-  position: fixed;
-  right: 0;
+app-toasts {
+  left: 1.25rem;
+  position: absolute;
+  right: 1.25rem;
+  z-index: 1;
 }

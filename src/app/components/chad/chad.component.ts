@@ -3,6 +3,7 @@ import {MessageModel} from "../../model/message.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {TmiService} from "../../services/tmi.service";
 import {MessageType} from "../../type/message.type";
+import {ToastService} from "../../services/toast.service";
 
 @Component({
     selector: 'chad',
@@ -11,20 +12,20 @@ import {MessageType} from "../../type/message.type";
 })
 export class ChadComponent implements AfterViewInit, OnInit {
 
-    // TODO: chad and form
+    // TODO: refactor html
     // TODO: better way for f*cking FormGroup?!
-    // TODO: highlight message in modal?!
 
     @ViewChild('chad', {static: false}) container: ElementRef;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageModel>;
     @ViewChildren('channelsOutput') channelsOutput: QueryList<string>;
 
     messages: MessageModel[] = [];
-    input: FormGroup;
     MessageType = MessageType;
+    input: FormGroup;
 
     constructor(private tmiService: TmiService,
-                private formBuilder: FormBuilder) {
+                private formBuilder: FormBuilder,
+                private toastService: ToastService) {
         this.input = this.formBuilder.group({
             channel: '',
             message: ''
@@ -41,7 +42,6 @@ export class ChadComponent implements AfterViewInit, OnInit {
         this.messagesOutput.changes.subscribe(_ => {
             this.scrollContainerToBottom();
         });
-
         this.channelsOutput.changes.subscribe(data => {
             if (!this.input.value.channel && data.length) {
                 this.input.reset({
@@ -60,6 +60,12 @@ export class ChadComponent implements AfterViewInit, OnInit {
         this.input.reset({
             channel: this.input.value.channel
         });
+    }
+
+    highlight(message: MessageModel): void {
+        this.toastService.show(message.message, {
+            header: message.user.name
+        })
     }
 
     private scrollContainerToBottom(): void {
