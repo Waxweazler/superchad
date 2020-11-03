@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastsComponent} from "./components/toasts/toasts.component";
 import {MessageComponent} from "./components/message/message.component";
+import {SimplebarAngularModule} from "simplebar-angular";
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import {MessageComponent} from "./components/message/message.component";
     imports: [
         BrowserModule,
         NgbModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SimplebarAngularModule
     ],
     providers: [],
     bootstrap: [AppComponent]

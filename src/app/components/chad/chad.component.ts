@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MessageModel} from "../../model/message.model";
 import {TmiService} from "../../services/tmi.service";
 import {MessageType} from "../../type/message.type";
 import {ToastService} from "../../services/toast.service";
 import {ScrollService} from "../../services/scroll.service";
+import {SimplebarAngularComponent} from "simplebar-angular";
 
 @Component({
     selector: 'app-chad',
@@ -12,16 +13,14 @@ import {ScrollService} from "../../services/scroll.service";
 })
 export class ChadComponent implements AfterViewInit, OnInit {
 
-    // TODO: custom scrollbar
-
+    @ViewChild('simpleBar', {static: false}) simpleBar: SimplebarAngularComponent;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageModel>;
 
     messages: MessageModel[] = [];
     MessageType = MessageType;
 
     constructor(private tmiService: TmiService,
-                private toastService: ToastService,
-                private scrollService: ScrollService) {
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -31,13 +30,23 @@ export class ChadComponent implements AfterViewInit, OnInit {
     }
 
     ngAfterViewInit(): void {
-        this.scrollService.subscribe(this.messagesOutput);
+        this.messagesOutput.changes.subscribe(_ => {
+            this.scrollContainerToBottom();
+        });
     }
 
     highlight(message: MessageModel): void {
         this.toastService.show(message.message, {
             header: message.user.name
         })
+    }
+
+    private scrollContainerToBottom(): void {
+        const containerElement = this.simpleBar.SimpleBar.getScrollElement();
+        containerElement.scroll({
+            top: containerElement.scrollHeight,
+            behavior: 'smooth'
+        });
     }
 
 }

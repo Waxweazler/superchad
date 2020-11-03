@@ -1,13 +1,15 @@
 <app-toasts></app-toasts>
-<ul class="list-group list-group-flush">
-    <li class="list-group-item" *ngFor="let message of messages" (click)="highlight(message)" #messagesOutput>
-        <ng-container *ngIf="MessageType.USER == message.type">
-            <span>[{{message.channel}}]</span>
-            <<span [ngStyle]="{'color':message.user.color}">{{message.user.name}}</span>>:
-            <span [innerHTML]="message.message"></span>
-        </ng-container>
-        <ng-container *ngIf="MessageType.SYSTEM == message.type">
-            <em class="text-muted">{{message.message}}</em>
-        </ng-container>
-    </li>
-</ul>
+<ngx-simplebar #simpleBar>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let message of messages" (click)="highlight(message)" #messagesOutput>
+            <ng-container *ngIf="MessageType.USER == message.type">
+                <span>[{{message.channel}}]</span>
+                <<span [ngStyle]="{'color':message.user.color}">{{message.user.name}}</span>>:
+                <span [innerHTML]="message.message"></span>
+            </ng-container>
+            <ng-container *ngIf="MessageType.SYSTEM == message.type">
+                <em class="text-muted">{{message.message}}</em>
+            </ng-container>
+        </li>
+    </ul>
+</ngx-simplebar>

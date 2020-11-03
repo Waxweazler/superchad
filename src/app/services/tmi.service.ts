@@ -32,7 +32,6 @@ export class TmiService {
                 this.messageSubject.next(message);
             });
             this.client.on('chat', (channel, tags, text, self) => {
-                console.log(tags);
                 const message: MessageModel = {
                     channel: channel,
                     message: this.parseEmotes(text, tags['emotes']),

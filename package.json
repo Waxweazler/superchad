@@ -22,7 +22,8 @@
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2",
     "tmi.js": "^1.5.0",
-    "bootstrap": "^4.5.3"
+    "bootstrap": "^4.5.3",
+    "simplebar-angular": "^2.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1002.0",
