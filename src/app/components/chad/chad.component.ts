@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MessageModel} from "../../model/message.model";
-import {FormBuilder, FormGroup} from "@angular/forms";
 import {TmiService} from "../../services/tmi.service";
 import {MessageType} from "../../type/message.type";
 import {ToastService} from "../../services/toast.service";
@@ -17,19 +16,12 @@ export class ChadComponent implements AfterViewInit, OnInit {
 
     @ViewChild('chad', {static: false}) container: ElementRef;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageModel>;
-    @ViewChildren('channelsOutput') channelsOutput: QueryList<string>;
 
     messages: MessageModel[] = [];
     MessageType = MessageType;
-    input: FormGroup;
 
     constructor(private tmiService: TmiService,
-                private formBuilder: FormBuilder,
                 private toastService: ToastService) {
-        this.input = this.formBuilder.group({
-            channel: '',
-            message: ''
-        });
     }
 
     ngOnInit(): void {
@@ -38,27 +30,9 @@ export class ChadComponent implements AfterViewInit, OnInit {
         });
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.messagesOutput.changes.subscribe(_ => {
             this.scrollContainerToBottom();
-        });
-        this.channelsOutput.changes.subscribe(data => {
-            if (!this.input.value.channel && data.length) {
-                this.input.reset({
-                    channel: data.first.nativeElement.value
-                });
-            }
-        });
-    }
-
-    getChannels(): String[] {
-        return this.tmiService.getChannels();
-    }
-
-    send(): void {
-        this.tmiService.send(this.input.value.channel, this.input.value.message);
-        this.input.reset({
-            channel: this.input.value.channel
         });
     }
 

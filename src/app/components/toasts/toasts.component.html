@@ -1,6 +1,7 @@
 <ngb-toast *ngFor="let toast of getToasts()"
            [header]="toast.header"
            [autohide]="toast.autohide"
+           (click)="remove(toast)"
            (hide)="remove(toast)">
     <span [innerHTML]="toast.textOrTpl"></span>
 </ngb-toast>

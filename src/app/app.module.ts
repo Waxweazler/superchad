@@ -6,11 +6,13 @@ import {ChadComponent} from "./components/chad/chad.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastsComponent} from "./components/toasts/toasts.component";
+import {MessageComponent} from "./components/message/message.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         ChadComponent,
+        MessageComponent,
         ToastsComponent
     ],
     imports: [
