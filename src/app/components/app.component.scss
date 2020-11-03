@@ -1,0 +1,12 @@
+.card {
+  $padding: 5%;
+  bottom: $padding;
+  left: $padding;
+  position: fixed;
+  right: $padding;
+  top: $padding;
+
+  &-body {
+    overflow-y: auto;
+  }
+}

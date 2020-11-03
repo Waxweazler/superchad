@@ -4,7 +4,6 @@ import {Subject} from "rxjs";
 import {MessageType} from "../type/message.type";
 import {Client} from "tmi.js";
 import {TmiConfiguration} from "../configuration/tmi.configuration";
-import {UserModel} from "../model/user.model";
 
 @Injectable({
     providedIn: 'root'
