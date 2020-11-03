@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="card">
+        <h1 class="card-header">Twitch Superchad</h1>
+        <div class="card-body" #chad>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" *ngFor="let message of messages" #messagesOutput>
+                    <ng-container *ngIf="MessageType.USER == message.type">
+                        <span>[{{message.channel}}]</span>
+                        <<span style="color:{{message.user.color}}">{{message.user.name}}</span>>:
+                        <span [innerHTML]="message.message"></span>
+                    </ng-container>
+                    <ng-container *ngIf="MessageType.SYSTEM == message.type">
+                        <em class="text-muted">{{message.message}}</em>
+                    </ng-container>
+                </li>
+            </ul>
+        </div>
+        <div class="card-footer">
+            <form [formGroup]="input" (ngSubmit)="send()">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select id="channelSelect" formControlName="channel" class="form-control">
+                            <option *ngFor="let channel of getChannels()" value="{{channel}}"
+                                    #channelsOutput>{{channel}}</option>
+                        </select>
+                    </div>
+                    <input type="text" formControlName="message" class="form-control" placeholder="Enter message">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
