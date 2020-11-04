@@ -52,6 +52,8 @@ export class TmiService {
                 }
                 this.messageSubject.next(message);
             });
+        }).catch(err => {
+            console.error(err);
         });
     }
 

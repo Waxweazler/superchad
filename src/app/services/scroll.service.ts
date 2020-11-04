@@ -23,7 +23,9 @@ export class ScrollService {
 
     private _getContainer(container: any): any {
         if (container instanceof SimplebarAngularComponent) {
-            return container.SimpleBar.getScrollElement();
+            const simpleBar = container.SimpleBar;
+            simpleBar.recalculate();
+            return simpleBar.getScrollElement();
         }
         return container.nativeElement;
     }
