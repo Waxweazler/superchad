@@ -31,6 +31,14 @@ export class TmiService {
                 message.user.name = this.client.getUsername();
                 this.messageSubject.next(message);
             });
+            this.client.on('part', (channel, username, self) => {
+                if (!self) return;
+                const message = new MessageModel();
+                message.message = `You left ${channel}`;
+                message.type = MessageType.SYSTEM;
+                message.user.name = this.client.getUsername();
+                this.messageSubject.next(message);
+            });
             this.client.on('chat', (channel, tags, text, self) => {
                 const message: MessageModel = {
                     channel: channel,
@@ -51,7 +59,15 @@ export class TmiService {
         this.client.say(channel, message);
     }
 
-    getChannels(): String[] {
+    join(channel: string): void {
+        this.client.join(channel);
+    }
+
+    part(channel: string): void {
+        this.client.part(channel);
+    }
+
+    getChannels(): string[] {
         return this.client ? this.client.getChannels() : [];
     }
 

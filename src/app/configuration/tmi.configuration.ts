@@ -12,5 +12,5 @@ export const TmiConfiguration: Options = {
         username: "Waxweazler",
         password: "oauth:pitox6yzcp0w99vwyoojkvyj64ixni"
     },
-    channels: ['Waxweazler', 'bobross', 'montanablack88'],
+    channels: ['Waxweazler'],
 };

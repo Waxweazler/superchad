@@ -1,19 +1,33 @@
-.list-group-item {
-  cursor: pointer;
+$card-spacer-x: 1.25rem;
+$card-spacer-y: .75rem;
 
-  &:hover {
-    background-color: whitesmoke;
-  }
-}
-
-app-toasts {
-  left: 1.25rem;
-  position: absolute;
-  right: 1.25rem;
-  z-index: 1;
-}
-
-ngx-simplebar {
+.card, ngx-simplebar {
   height: 100%;
 }
 
+.card {
+  &-body {
+    position: relative;
+
+    .list-group-item {
+      cursor: pointer;
+
+      &:hover {
+        background-color: whitesmoke;
+      }
+    }
+
+    app-toasts {
+      left: $card-spacer-x;
+      position: absolute;
+      right: $card-spacer-x;
+      z-index: 1;
+    }
+
+    #scrollToBottomButton {
+      bottom: $card-spacer-y;
+      position: absolute;
+      right: $card-spacer-x;
+    }
+  }
+}

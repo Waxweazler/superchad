@@ -7,9 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <script>
-        if (window['global'] === undefined) {
-            window['global'] = window
-        }
+        window.global = window.global ? window.global : window;
     </script>
 </head>
 <body>

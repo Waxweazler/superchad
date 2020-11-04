@@ -1,9 +1,33 @@
 @import "~bootstrap/scss/bootstrap";
 
+body, html,
+.container-fluid, .row, .col {
+  height: 100%;
+}
+
 body {
   background-color: darkslategray;
 }
 
-.simplebar-track.simplebar-vertical {
-  right: -1.25rem;
+.container-fluid {
+  padding: $grid-gutter-width/2;
+}
+
+.card {
+  &-header, &-footer {
+    background-color: #9147ff;
+    color: #fff;
+  }
+
+  &-header {
+    font-family: 'Press Start 2P', serif;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.simplebar-track {
+  &.simplebar-vertical {
+    right: -$card-spacer-x;
+  }
 }

@@ -1,0 +1,8 @@
+.btn-danger-wrapper {
+  $margin: 6px;
+  margin: -$margin;
+
+  .btn-danger {
+    margin: $margin;
+  }
+}
