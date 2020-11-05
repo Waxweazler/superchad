@@ -5,6 +5,7 @@ import {MessageType} from "../../type/message.type";
 import {ToastService} from "../../services/toast.service";
 import {ScrollService} from "../../services/scroll.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TwitchService} from "../../services/twitch.service";
 
 @Component({
     selector: 'app-chad',
@@ -16,12 +17,12 @@ export class ChadComponent implements AfterViewInit, OnInit {
     @ViewChild('scrollable', {static: false}) scrollable: ElementRef;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageModel>;
 
-    messages: MessageModel[] = [];
     scrolledToBottom: boolean = true;
     messageForm: FormGroup;
     MessageType = MessageType;
 
     constructor(private tmiService: TmiService,
+                private twitchService: TwitchService,
                 private toastService: ToastService,
                 private scrollService: ScrollService,
                 private formBuilder: FormBuilder) {
@@ -32,12 +33,8 @@ export class ChadComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.tmiService.connect(message => {
-            if (this.messages.length > 100) {
-                this.messages.shift();
-            }
-            this.messages.push(message);
-        });
+        this.tmiService.connect();
+        this.twitchService.connect();
     }
 
     ngAfterViewInit(): void {
@@ -47,6 +44,10 @@ export class ChadComponent implements AfterViewInit, OnInit {
         this.scrollService.onScroll(this.scrollable, toBottom => {
             this.scrolledToBottom = toBottom;
         });
+    }
+
+    getMessages(): MessageModel[] {
+        return this.tmiService.messages;
     }
 
     highlight(message: MessageModel): void {

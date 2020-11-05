@@ -1,0 +1,9 @@
+<div class="card">
+    <h1 class="card-header">Stats</h1>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let stream of getFollowedLiveStreams()"
+                (click)="joinStream(stream)">{{stream.channel.displayName}}</li>
+        </ul>
+    </div>
+</div>

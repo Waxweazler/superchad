@@ -4,7 +4,7 @@
         <app-toasts></app-toasts>
         <div class="scrollable" #scrollable>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item" *ngFor="let message of messages" (click)="highlight(message)"
+                <li class="list-group-item" *ngFor="let message of getMessages()" (click)="highlight(message)"
                     #messagesOutput>
                     <ng-container *ngIf="MessageType.USER == message.type">
                         <span>[{{message.channel}}]</span>

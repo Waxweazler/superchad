@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {MessageModel} from "../model/message.model";
-import {Subject} from "rxjs";
 import {MessageType} from "../type/message.type";
 import {Client} from "tmi.js";
 import {TmiConfiguration} from "../configuration/tmi.configuration";
@@ -11,16 +10,15 @@ import {TmiConfiguration} from "../configuration/tmi.configuration";
 export class TmiService {
 
     client: Client = Client(TmiConfiguration);
-    messageSubject: Subject<MessageModel> = new Subject<MessageModel>();
+    messages: MessageModel[] = [];
 
-    connect(observer: (MessageModel) => void): void {
-        this.messageSubject.subscribe(observer);
+    connect(): void {
         this.client.on('connected', (address, port) => {
             const message = new MessageModel();
             message.message = `Connected to ${address}:${port}`;
             message.type = MessageType.SYSTEM;
             message.user.name = this.client.getUsername();
-            this.messageSubject.next(message);
+            this.messages.push(message);
         });
         this.client.connect().then(_ => {
             this.client.on('join', (channel, username, self) => {
@@ -29,7 +27,7 @@ export class TmiService {
                 message.message = `You joined ${channel}`;
                 message.type = MessageType.SYSTEM;
                 message.user.name = this.client.getUsername();
-                this.messageSubject.next(message);
+                this.messages.push(message);
             });
             this.client.on('part', (channel, username, self) => {
                 if (!self) return;
@@ -37,7 +35,7 @@ export class TmiService {
                 message.message = `You left ${channel}`;
                 message.type = MessageType.SYSTEM;
                 message.user.name = this.client.getUsername();
-                this.messageSubject.next(message);
+                this.messages.push(message);
             });
             this.client.on('chat', (channel, tags, text, self) => {
                 const message: MessageModel = {
@@ -50,7 +48,7 @@ export class TmiService {
                     },
                     type: MessageType.USER
                 }
-                this.messageSubject.next(message);
+                this.messages.push(message);
             });
         }).catch(err => {
             console.error(err);
