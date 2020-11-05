@@ -2,7 +2,7 @@
     <h1 class="card-header">Twitch Superchad</h1>
     <div class="card-body">
         <app-toasts></app-toasts>
-        <ngx-simplebar #simpleBar>
+        <div class="scrollable" #scrollable>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" *ngFor="let message of messages" (click)="highlight(message)"
                     #messagesOutput>
@@ -16,7 +16,7 @@
                     </ng-container>
                 </li>
             </ul>
-        </ngx-simplebar>
+        </div>
         <button class="btn btn-warning" id="scrollToBottomButton"
                 (click)="scrollToBottom()" *ngIf="!scrolledToBottom">Chat stopped due to scrolling
         </button>

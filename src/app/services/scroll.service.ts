@@ -1,5 +1,4 @@
 import {Injectable} from "@angular/core";
-import {SimplebarAngularComponent} from "simplebar-angular";
 
 @Injectable({
     providedIn: 'root'
@@ -7,26 +6,20 @@ import {SimplebarAngularComponent} from "simplebar-angular";
 export class ScrollService {
 
     scrollToBottom(container: any): void {
-        container = this._getContainer(container);
+        container = this._getNativeContainerElement(container);
         container.scroll({
-            top: container.scrollHeight,
-            behavior: 'smooth'
+            top: container.scrollHeight
         });
     }
 
     onScroll(container: any, observer: (toBottom: boolean) => void): void {
-        container = this._getContainer(container);
+        container = this._getNativeContainerElement(container);
         container.addEventListener('scroll', function () {
-            observer((container.offsetHeight + container.scrollTop) >= container.scrollHeight - 150);
+            observer(container.scrollHeight - container.clientHeight <= container.scrollTop);
         });
     }
 
-    private _getContainer(container: any): any {
-        if (container instanceof SimplebarAngularComponent) {
-            const simpleBar = container.SimpleBar;
-            simpleBar.recalculate();
-            return simpleBar.getScrollElement();
-        }
+    private _getNativeContainerElement(container: any): any {
         return container.nativeElement;
     }
 

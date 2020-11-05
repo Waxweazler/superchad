@@ -6,7 +6,6 @@ import {ChadComponent} from "./components/chad/chad.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastsComponent} from "./components/toasts/toasts.component";
-import {SimplebarAngularModule} from "simplebar-angular";
 import {ChannelsComponent} from "./components/channels/channels.component";
 
 @NgModule({
@@ -19,8 +18,7 @@ import {ChannelsComponent} from "./components/channels/channels.component";
     imports: [
         BrowserModule,
         NgbModule,
-        ReactiveFormsModule,
-        SimplebarAngularModule
+        ReactiveFormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

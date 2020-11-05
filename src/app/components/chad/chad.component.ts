@@ -1,9 +1,8 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MessageModel} from "../../model/message.model";
 import {TmiService} from "../../services/tmi.service";
 import {MessageType} from "../../type/message.type";
 import {ToastService} from "../../services/toast.service";
-import {SimplebarAngularComponent} from "simplebar-angular";
 import {ScrollService} from "../../services/scroll.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -14,7 +13,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class ChadComponent implements AfterViewInit, OnInit {
 
-    @ViewChild('simpleBar', {static: false}) simpleBar: SimplebarAngularComponent;
+    @ViewChild('scrollable', {static: false}) scrollable: ElementRef;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageModel>;
 
     messages: MessageModel[] = [];
@@ -45,7 +44,7 @@ export class ChadComponent implements AfterViewInit, OnInit {
         this.messagesOutput.changes.subscribe(_ => {
             this.scrolledToBottom && this.scrollToBottom();
         });
-        this.scrollService.onScroll(this.simpleBar, toBottom => {
+        this.scrollService.onScroll(this.scrollable, toBottom => {
             this.scrolledToBottom = toBottom;
         });
     }
@@ -57,7 +56,7 @@ export class ChadComponent implements AfterViewInit, OnInit {
     }
 
     scrollToBottom(): void {
-        this.scrollService.scrollToBottom(this.simpleBar);
+        this.scrollService.scrollToBottom(this.scrollable);
     }
 
     getChannels(): string[] {

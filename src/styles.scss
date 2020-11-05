@@ -26,8 +26,6 @@ body {
   }
 }
 
-.simplebar-track {
-  &.simplebar-vertical {
-    right: -$card-spacer-x;
-  }
+.scrollable {
+  overflow-y: auto;
 }
