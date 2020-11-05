@@ -13,35 +13,32 @@ export class TmiService {
     client: Client = Client(TmiConfiguration);
     messages: AbstractMessageModel[] = [];
 
-    connect(): void {
+    async start(): Promise<void> {
         this.client.on('connected', (address, port) => {
             this.addMessage(
                 this.createSystemMessage(`Connected to ${address}:${port}`)
             );
         });
-        this.client.connect().then(_ => {
-            this.client.on('join', (channel, username, self) => {
-                if (!self) return;
-                this.addMessage(
-                    this.createSystemMessage(`You joined ${channel}`)
-                );
-            });
-            this.client.on('part', (channel, username, self) => {
-                if (!self) return;
-                this.addMessage(
-                    this.createSystemMessage(`You left ${channel}`)
-                );
-            });
-            this.client.on('chat', (channel, tags, text, self) => {
-                const message = new UserMessageModel();
-                message.channel = channel;
-                message.text = TmiService.parseEmotes(text, tags['emotes']);
-                message.user.name = tags['display-name'];
-                message.user.color = tags['color'];
-                this.addMessage(message);
-            });
-        }).catch(err => {
-            console.error(err);
+        await this.client.connect();
+        this.client.on('join', (channel, username, self) => {
+            if (!self) return;
+            this.addMessage(
+                this.createSystemMessage(`You joined ${channel}`)
+            );
+        });
+        this.client.on('part', (channel, username, self) => {
+            if (!self) return;
+            this.addMessage(
+                this.createSystemMessage(`You left ${channel}`)
+            );
+        });
+        this.client.on('chat', (channel, tags, text, self) => {
+            const message = new UserMessageModel();
+            message.channel = channel;
+            message.text = TmiService.parseEmotes(text, tags['emotes']);
+            message.user.name = tags['display-name'];
+            message.user.color = tags['color'];
+            this.addMessage(message);
         });
     }
 

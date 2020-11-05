@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {TmiService} from "../../services/tmi.service";
 import {MessageType} from "../../type/message.type";
 import {ToastService} from "../../services/toast.service";
@@ -12,7 +12,7 @@ import {AbstractMessageModel} from "../../model/abstract.message.model";
     templateUrl: './chad.component.html',
     styleUrls: ['./chad.component.scss']
 })
-export class ChadComponent implements AfterViewInit, OnInit {
+export class ChadComponent implements AfterViewInit {
 
     @ViewChild('scrollable', {static: false}) scrollable: ElementRef;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<AbstractMessageModel>;
@@ -30,11 +30,6 @@ export class ChadComponent implements AfterViewInit, OnInit {
             channel: ['', Validators.required],
             message: ['', Validators.required]
         });
-    }
-
-    ngOnInit(): void {
-        this.tmiService.connect();
-        this.twitchService.connect();
     }
 
     ngAfterViewInit(): void {

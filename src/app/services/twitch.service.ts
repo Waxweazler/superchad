@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
-import {ApiClient, AuthProvider, StaticAuthProvider, Stream} from "twitch";
+import {ApiClient, AuthProvider, StaticAuthProvider} from "twitch";
 import {TmiConfiguration} from "../configuration/tmi.configuration";
+import {TmiService} from "./tmi.service";
 
 @Injectable({
     providedIn: 'root'
@@ -8,18 +9,22 @@ import {TmiConfiguration} from "../configuration/tmi.configuration";
 export class TwitchService {
 
     client: ApiClient = null;
-    followedLiveStreams: Array<Stream> = null;
 
-    connect(): void {
+    constructor(private tmiService: TmiService) {
+    }
+
+    start(): void {
         this.client = new ApiClient({
             "authProvider": this.getAuthProvider()
         });
-        this.getFollowedStreams();
+        this.joinFollowedStreams();
     }
 
-    getFollowedStreams(): void {
+    joinFollowedStreams(): void {
         this.client.kraken.streams.getFollowedStreams().then(streams => {
-            this.followedLiveStreams = streams;
+            streams.forEach(stream => {
+                this.tmiService.join(stream.channel.displayName);
+            })
         });
     }
 

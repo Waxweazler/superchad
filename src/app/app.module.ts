@@ -7,14 +7,14 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastsComponent} from "./components/toasts/toasts.component";
 import {ChannelsComponent} from "./components/channels/channels.component";
-import {StatsComponent} from "./components/stats/stats.component";
+import {LoginComponent} from "./components/login/login.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         ChadComponent,
         ChannelsComponent,
-        StatsComponent,
+        LoginComponent,
         ToastsComponent
     ],
     imports: [
