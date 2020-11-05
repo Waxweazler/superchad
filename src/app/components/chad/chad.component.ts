@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {MessageModel} from "../../model/message.model";
 import {TmiService} from "../../services/tmi.service";
 import {MessageType} from "../../type/message.type";
 import {ToastService} from "../../services/toast.service";
 import {ScrollService} from "../../services/scroll.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TwitchService} from "../../services/twitch.service";
+import {AbstractMessageModel} from "../../model/abstract.message.model";
 
 @Component({
     selector: 'app-chad',
@@ -15,7 +15,7 @@ import {TwitchService} from "../../services/twitch.service";
 export class ChadComponent implements AfterViewInit, OnInit {
 
     @ViewChild('scrollable', {static: false}) scrollable: ElementRef;
-    @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageModel>;
+    @ViewChildren('messagesOutput') messagesOutput: QueryList<AbstractMessageModel>;
 
     scrolledToBottom: boolean = true;
     messageForm: FormGroup;
@@ -46,12 +46,12 @@ export class ChadComponent implements AfterViewInit, OnInit {
         });
     }
 
-    getMessages(): MessageModel[] {
+    getMessages(): AbstractMessageModel[] {
         return this.tmiService.messages;
     }
 
-    highlight(message: MessageModel): void {
-        this.toastService.show(message.message, {
+    highlight(message: AbstractMessageModel): void {
+        this.toastService.show(message.text, {
             header: message.user.name
         })
     }

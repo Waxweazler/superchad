@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
-import {MessageModel} from "../model/message.model";
-import {MessageType} from "../type/message.type";
 import {Client} from "tmi.js";
 import {TmiConfiguration} from "../configuration/tmi.configuration";
+import {SystemMessageModel} from "../model/system.message.model";
+import {AbstractMessageModel} from "../model/abstract.message.model";
+import {UserMessageModel} from "../model/user.message.model";
 
 @Injectable({
     providedIn: 'root'
@@ -10,45 +11,34 @@ import {TmiConfiguration} from "../configuration/tmi.configuration";
 export class TmiService {
 
     client: Client = Client(TmiConfiguration);
-    messages: MessageModel[] = [];
+    messages: AbstractMessageModel[] = [];
 
     connect(): void {
         this.client.on('connected', (address, port) => {
-            const message = new MessageModel();
-            message.message = `Connected to ${address}:${port}`;
-            message.type = MessageType.SYSTEM;
-            message.user.name = this.client.getUsername();
-            this.messages.push(message);
+            this.addMessage(
+                this.createSystemMessage(`Connected to ${address}:${port}`)
+            );
         });
         this.client.connect().then(_ => {
             this.client.on('join', (channel, username, self) => {
                 if (!self) return;
-                const message = new MessageModel();
-                message.message = `You joined ${channel}`;
-                message.type = MessageType.SYSTEM;
-                message.user.name = this.client.getUsername();
-                this.messages.push(message);
+                this.addMessage(
+                    this.createSystemMessage(`You joined ${channel}`)
+                );
             });
             this.client.on('part', (channel, username, self) => {
                 if (!self) return;
-                const message = new MessageModel();
-                message.message = `You left ${channel}`;
-                message.type = MessageType.SYSTEM;
-                message.user.name = this.client.getUsername();
-                this.messages.push(message);
+                this.addMessage(
+                    this.createSystemMessage(`You left ${channel}`)
+                );
             });
             this.client.on('chat', (channel, tags, text, self) => {
-                const message: MessageModel = {
-                    channel: channel,
-                    message: this.parseEmotes(text, tags['emotes']),
-                    self: self,
-                    user: {
-                        name: tags['display-name'],
-                        color: tags['color']
-                    },
-                    type: MessageType.USER
-                }
-                this.messages.push(message);
+                const message = new UserMessageModel();
+                message.channel = channel;
+                message.text = TmiService.parseEmotes(text, tags['emotes']);
+                message.user.name = tags['display-name'];
+                message.user.color = tags['color'];
+                this.addMessage(message);
             });
         }).catch(err => {
             console.error(err);
@@ -71,12 +61,26 @@ export class TmiService {
         return this.client ? this.client.getChannels() : [];
     }
 
-    private parseEmotes(text, emotes): string {
-        var splitText = Array.from(text);
-        for (var i in emotes) {
-            var e = emotes[i];
-            for (var j in e) {
-                var mote = e[j];
+    private addMessage(message: AbstractMessageModel) {
+        if (this.messages.length > 200) {
+            this.messages.shift();
+        }
+        this.messages.push(message);
+    }
+
+    private createSystemMessage(text: string): SystemMessageModel {
+        const message = new SystemMessageModel();
+        message.text = text;
+        message.user.name = this.client.getUsername();
+        return message;
+    }
+
+    private static parseEmotes(text, emotes): string {
+        let splitText = Array.from(text);
+        for (const i in emotes) {
+            const e = emotes[i];
+            for (const j in e) {
+                let mote = e[j];
                 if (typeof mote == 'string') {
                     mote = mote.split('-');
                     mote = [parseInt(mote[0]), parseInt(mote[1])];

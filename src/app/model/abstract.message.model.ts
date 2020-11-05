@@ -1,12 +1,11 @@
 import {UserModel} from "./user.model";
 import {MessageType} from "../type/message.type";
 
-export class MessageModel {
+export abstract class AbstractMessageModel {
 
     channel: string;
     user: UserModel = new UserModel();
-    message: string;
-    self: boolean;
-    type: MessageType;
+    text: string;
+    abstract type: MessageType;
 
 }
