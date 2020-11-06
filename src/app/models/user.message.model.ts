@@ -1,5 +1,5 @@
-import {MessageType} from "../type/message.type";
 import {AbstractMessageModel} from "./abstract.message.model";
+import {MessageType} from "./types/message.type";
 
 export class UserMessageModel extends AbstractMessageModel {
 

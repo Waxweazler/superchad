@@ -1,16 +1,29 @@
 import {Injectable} from "@angular/core";
 import {Client} from "tmi.js";
-import {TmiConfiguration} from "../configuration/tmi.configuration";
-import {SystemMessageModel} from "../model/system.message.model";
-import {AbstractMessageModel} from "../model/abstract.message.model";
-import {UserMessageModel} from "../model/user.message.model";
+import {SystemMessageModel} from "../models/system.message.model";
+import {AbstractMessageModel} from "../models/abstract.message.model";
+import {UserMessageModel} from "../models/user.message.model";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class TmiService {
 
-    client: Client = Client(TmiConfiguration);
+    client: Client = Client({
+        options: {
+            clientId: environment.twitch.clientId,
+            debug: false
+        },
+        connection: {
+            reconnect: true
+        },
+        identity: {
+            username: environment.twitch.username,
+            password: `oauth:${environment.twitch.accessToken}`
+        },
+        channels: [environment.twitch.username]
+    });
     messages: AbstractMessageModel[] = [];
 
     async start(): Promise<void> {

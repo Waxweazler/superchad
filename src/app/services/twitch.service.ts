@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ApiClient, AuthProvider, StaticAuthProvider} from "twitch";
-import {TmiConfiguration} from "../configuration/tmi.configuration";
 import {TmiService} from "./tmi.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -30,8 +30,8 @@ export class TwitchService {
 
     getAuthProvider(): AuthProvider {
         return new StaticAuthProvider(
-            TmiConfiguration.options.clientId,
-            TmiConfiguration.identity.password.replace("oauth:", "")
+            environment.twitch.clientId,
+            environment.twitch.accessToken
         );
     }
 

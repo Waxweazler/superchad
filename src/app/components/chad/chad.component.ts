@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {TmiService} from "../../services/tmi.service";
-import {MessageType} from "../../type/message.type";
 import {ToastService} from "../../services/toast.service";
 import {ScrollService} from "../../services/scroll.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TwitchService} from "../../services/twitch.service";
-import {AbstractMessageModel} from "../../model/abstract.message.model";
+import {AbstractMessageModel} from "../../models/abstract.message.model";
+import {MessageType} from '../../models/types/message.type';
 
 @Component({
     selector: 'app-chad',

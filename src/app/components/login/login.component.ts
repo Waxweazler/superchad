@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // refactor configuration
         this.tmiService.start().then(() => {
             this.twitchService.start();
         });
