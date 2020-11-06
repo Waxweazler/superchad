@@ -6,8 +6,7 @@ export const environment = {
   production: true,
   name: "prod",
   twitch: {
-    accessToken: "",
     clientId: "",
-    username: ""
+    redirectUri: ""
   }
 };

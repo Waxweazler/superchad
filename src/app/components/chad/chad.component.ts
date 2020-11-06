@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TwitchService} from "../../services/twitch.service";
 import {AbstractMessageModel} from "../../models/abstract.message.model";
 import {MessageType} from '../../models/types/message.type';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-chad',
@@ -25,6 +26,7 @@ export class ChadComponent implements AfterViewInit {
                 private twitchService: TwitchService,
                 private toastService: ToastService,
                 private scrollService: ScrollService,
+                private authService: AuthService,
                 private formBuilder: FormBuilder) {
         this.messageForm = this.formBuilder.group({
             channel: ['', Validators.required],
@@ -64,6 +66,10 @@ export class ChadComponent implements AfterViewInit {
         this.messageForm.reset({
             channel: this.getMessageFormValues().channel
         });
+    }
+
+    isAuthenticated(): boolean {
+        return this.authService.authenticated;
     }
 
     private getMessageFormValues(): any {

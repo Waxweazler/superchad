@@ -1,5 +1,5 @@
-<div class="card">
-    <h1 class="card-header">Twitch Superchad</h1>
+<div class="card" *ngIf="isAuthenticated()">
+    <h2 class="card-header">Twitch Superchad</h2>
     <div class="card-body">
         <app-toasts></app-toasts>
         <div class="scrollable" #scrollable>

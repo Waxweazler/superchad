@@ -6,8 +6,7 @@ export const environment = {
   production: false,
   name: "dev",
   twitch: {
-    accessToken: "mtfvm96q4zrjrimc17c0at7dcswgzb",
     clientId: "lvu7h7ipe17rsz2qv2nvf3e2mig71y",
-    username: "Waxweazler"
+    redirectUri: "http://localhost:4200/login"
   }
 };

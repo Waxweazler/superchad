@@ -4,29 +4,31 @@ import {SystemMessageModel} from "../models/system.message.model";
 import {AbstractMessageModel} from "../models/abstract.message.model";
 import {UserMessageModel} from "../models/user.message.model";
 import {environment} from "../../environments/environment";
+import {TokenInfo} from "twitch-auth";
 
 @Injectable({
     providedIn: 'root'
 })
 export class TmiService {
 
-    client: Client = Client({
-        options: {
-            clientId: environment.twitch.clientId,
-            debug: false
-        },
-        connection: {
-            reconnect: true
-        },
-        identity: {
-            username: environment.twitch.username,
-            password: `oauth:${environment.twitch.accessToken}`
-        },
-        channels: [environment.twitch.username]
-    });
+    client: Client;
     messages: AbstractMessageModel[] = [];
 
-    async start(): Promise<void> {
+    async start(accessToken: string, tokenInfo: TokenInfo): Promise<void> {
+        this.client = Client({
+            options: {
+                clientId: tokenInfo.clientId,
+                debug: false
+            },
+            connection: {
+                reconnect: true
+            },
+            identity: {
+                username: tokenInfo.userName,
+                password: `oauth:${accessToken}`
+            },
+            channels: [tokenInfo.userName]
+        });
         this.client.on('connected', (address, port) => {
             this.addMessage(
                 this.createSystemMessage(`Connected to ${address}:${port}`)

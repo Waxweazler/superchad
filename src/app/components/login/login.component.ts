@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {TwitchService} from "../../services/twitch.service";
-import {TmiService} from "../../services/tmi.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-login',
@@ -9,14 +9,33 @@ import {TmiService} from "../../services/tmi.service";
 })
 export class LoginComponent implements OnInit {
 
-    constructor(private twitchService: TwitchService,
-                private tmiService: TmiService) {
+    constructor(private authService: AuthService,
+                private route: ActivatedRoute,
+                private router: Router) {
     }
 
     ngOnInit(): void {
-        this.tmiService.start().then(() => {
-            this.twitchService.start();
+        // TODO: this has to be done better..
+        this.route.fragment.subscribe(fragment => {
+            const accessToken: string = LoginComponent._getFragmentParam(fragment, "access_token");
+            if (accessToken) {
+                this.router.navigate(["/"]).then(() => {
+                    this.authService.authenticate(accessToken);
+                });
+            }
         });
+    }
+
+    isAuthenticated(): boolean {
+        return this.authService.authenticated;
+    }
+
+    getLoginUrl(): string {
+        return this.authService.getAuthUrl();
+    }
+
+    private static _getFragmentParam(fragment: string, key: string) {
+        return new URLSearchParams(fragment).get(key);
     }
 
 }

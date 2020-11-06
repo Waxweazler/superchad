@@ -8,6 +8,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastsComponent} from "./components/toasts/toasts.component";
 import {ChannelsComponent} from "./components/channels/channels.component";
 import {LoginComponent} from "./components/login/login.component";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -20,7 +21,10 @@ import {LoginComponent} from "./components/login/login.component";
     imports: [
         BrowserModule,
         NgbModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterModule.forRoot([
+            {path: "login", component: LoginComponent}
+        ])
     ],
     providers: [],
     bootstrap: [AppComponent]

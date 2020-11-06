@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
-import {ApiClient, AuthProvider, StaticAuthProvider} from "twitch";
-import {TmiService} from "./tmi.service";
+import {ApiClient, AuthProvider, StaticAuthProvider, Stream, TokenInfo} from "twitch";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -8,31 +7,24 @@ import {environment} from "../../environments/environment";
 })
 export class TwitchService {
 
-    client: ApiClient = null;
+    client: ApiClient;
 
-    constructor(private tmiService: TmiService) {
-    }
-
-    start(): void {
+    initialize(accessToken: string): void {
         this.client = new ApiClient({
-            "authProvider": this.getAuthProvider()
-        });
-        this.joinFollowedStreams();
-    }
-
-    joinFollowedStreams(): void {
-        this.client.kraken.streams.getFollowedStreams().then(streams => {
-            streams.forEach(stream => {
-                this.tmiService.join(stream.channel.displayName);
-            })
+            "authProvider": TwitchService._getAuthProvider(accessToken)
         });
     }
 
-    getAuthProvider(): AuthProvider {
-        return new StaticAuthProvider(
-            environment.twitch.clientId,
-            environment.twitch.accessToken
-        );
+    async getTokenInfo(): Promise<TokenInfo> {
+        return await this.client.getTokenInfo();
+    }
+
+    async getFollowedStreams(): Promise<Stream[]> {
+        return await this.client.kraken.streams.getFollowedStreams();
+    }
+
+    private static _getAuthProvider(accessToken: string): AuthProvider {
+        return new StaticAuthProvider(environment.twitch.clientId, accessToken);
     }
 
 }
