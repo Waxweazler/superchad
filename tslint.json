@@ -17,6 +17,7 @@
       "severity": "warning"
     },
     "eofline": true,
+    "forin": false,
     "import-blacklist": [
       true,
       "rxjs/Rx"
@@ -65,10 +66,12 @@
       true,
       "as-needed"
     ],
+    "one-variable-per-declaration": false,
     "quotemark": [
       true,
       "single"
     ],
+    "radix": false,
     "semicolon": {
       "options": [
         "always"
