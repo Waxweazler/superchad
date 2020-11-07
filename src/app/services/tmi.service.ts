@@ -3,7 +3,6 @@ import {Client} from "tmi.js";
 import {SystemMessageModel} from "../models/system.message.model";
 import {AbstractMessageModel} from "../models/abstract.message.model";
 import {UserMessageModel} from "../models/user.message.model";
-import {environment} from "../../environments/environment";
 import {TokenInfo} from "twitch-auth";
 
 @Injectable({
@@ -61,8 +60,8 @@ export class TmiService {
         this.client.say(channel, message);
     }
 
-    join(channel: string): void {
-        this.client.join(channel);
+    async join(channel: string): Promise<string[]> {
+        return await this.client.join(channel);
     }
 
     part(channel: string): void {

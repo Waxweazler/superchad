@@ -1,7 +1,8 @@
-import {Injectable} from "@angular/core";
+import {EventEmitter, Injectable} from "@angular/core";
 import {TwitchService} from "./twitch.service";
 import {TmiService} from "./tmi.service";
 import {environment} from "../../environments/environment";
+import {AuthType} from "../models/types/auth.type";
 
 @Injectable({
     providedIn: 'root'
@@ -9,23 +10,31 @@ import {environment} from "../../environments/environment";
 export class AuthService {
 
     authenticated: boolean;
+    status: EventEmitter<AuthType> = new EventEmitter<AuthType>();
 
     constructor(private tmiService: TmiService,
                 private twitchService: TwitchService) {
     }
 
-    authenticate(accessToken): void {
+    async authenticate(accessToken): Promise<void> {
         this.twitchService.initialize(accessToken);
-        this.twitchService.getTokenInfo().then(tokenInfo => {
-            this.authenticated = true;
-            this.tmiService.start(accessToken, tokenInfo).then(() => {
-                this.twitchService.getFollowedStreams().then(streams => {
-                    streams.forEach(stream => {
-                        this.tmiService.join(stream.channel.displayName);
-                    });
-                });
-            });
-        });
+
+        this.status.emit(AuthType.TWITCH_VALIDATE);
+        const tokenInfo = await this.twitchService.getTokenInfo();
+
+        this.status.emit(AuthType.TWITCH_FETCH_CHANNELS);
+        const streams = await this.twitchService.getFollowedStreams();
+
+        this.status.emit(AuthType.TMI_CONNECT);
+        await this.tmiService.start(accessToken, tokenInfo);
+
+        this.status.emit(AuthType.TMI_JOIN_CHANNELS);
+        for (let i = 0; i < streams.length; i++) {
+            await this.tmiService.join(streams[i].channel.displayName);
+        }
+
+        this.authenticated = true;
+        this.status.emit(AuthType.FINISHED);
     }
 
     getAuthUrl(): string {

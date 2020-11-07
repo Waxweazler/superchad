@@ -7,26 +7,33 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastsComponent} from "./components/toasts/toasts.component";
 import {ChannelsComponent} from "./components/channels/channels.component";
-import {LoginComponent} from "./components/login/login.component";
 import {RouterModule} from "@angular/router";
+import {ClientView} from "./views/client/client.view";
+import {LoginView} from "./views/login/login.view";
+import {AuthComponent} from "./components/auth/auth.component";
+import {AuthGuard} from "./guards/auth.guard";
 
 @NgModule({
     declarations: [
         AppComponent,
+        AuthComponent,
         ChadComponent,
         ChannelsComponent,
-        LoginComponent,
-        ToastsComponent
+        ToastsComponent,
+        ClientView,
+        LoginView
     ],
     imports: [
         BrowserModule,
         NgbModule,
         ReactiveFormsModule,
         RouterModule.forRoot([
-            {path: "login", component: LoginComponent}
+            {path: "login", component: LoginView},
+            {path: "client", component: ClientView, canActivate: [AuthGuard]},
+            {path: "**", redirectTo: 'client'}
         ])
     ],
-    providers: [],
+    providers: [AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule {

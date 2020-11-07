@@ -1,0 +1,7 @@
+<div class="card" *ngIf="progress != null">
+    <h2 class="card-header">Login</h2>
+    <div class="card-body">
+        <ngb-progressbar type="success" striped="true" [value]="progress.value"
+                         animated="true">{{progress.label}}</ngb-progressbar>
+    </div>
+</div>
