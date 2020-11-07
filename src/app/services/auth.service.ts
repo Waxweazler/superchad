@@ -9,7 +9,7 @@ import {AuthType} from '../models/types/auth.type';
 })
 export class AuthService {
 
-    authenticated: boolean;
+    private authenticated: boolean;
     status: EventEmitter<AuthType> = new EventEmitter<AuthType>();
 
     constructor(private tmiService: TmiService,
@@ -35,6 +35,10 @@ export class AuthService {
 
         this.authenticated = true;
         this.status.emit(AuthType.FINISHED);
+    }
+
+    isAuthenticated(): boolean {
+        return this.authenticated;
     }
 
     getAuthUrl(): string {
