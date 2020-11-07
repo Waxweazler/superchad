@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   name: "prod",
   twitch: {
-    clientId: "",
-    redirectUri: ""
+    clientId: "s479twid3gpjfwk3x0z0cp6aetwsze",
+    redirectUri: "http://t-joe.de/superchad/login"
   }
 };
