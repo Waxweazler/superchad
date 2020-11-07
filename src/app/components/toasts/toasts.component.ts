@@ -13,7 +13,7 @@ export class ToastsComponent {
     }
 
     getToasts(): NgbToast[] {
-        return this.toastService.toasts;
+        return this.toastService.getToasts();
     }
 
     remove(toast: NgbToast): void {

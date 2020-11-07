@@ -6,7 +6,7 @@ import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ToastService {
 
-    toasts: NgbToast[] = [];
+    private toasts: NgbToast[] = [];
 
     show(textOrTpl: string, options: any = {}): void {
         this.toasts.push({textOrTpl, ...options});
@@ -14,6 +14,10 @@ export class ToastService {
 
     remove(toast): void {
         this.toasts = this.toasts.filter(t => t !== toast);
+    }
+
+    getToasts(): NgbToast[] {
+        return this.toasts;
     }
 
 }

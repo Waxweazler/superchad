@@ -12,18 +12,18 @@ describe('ToastService', () => {
     });
 
     it('toasts can be added and removed', () => {
-        expect(service.toasts.length).toBe(0);
+        expect(service.getToasts().length).toBe(0);
 
         service.show('content', {
             header: 'header'
         });
 
-        expect(service.toasts.length).toBe(1);
-        expect(service.toasts[0].header).toBe('header');
+        expect(service.getToasts().length).toBe(1);
+        expect(service.getToasts()[0].header).toBe('header');
 
-        service.remove(service.toasts[0]);
+        service.remove(service.getToasts()[0]);
 
-        expect(service.toasts.length).toBe(0);
+        expect(service.getToasts().length).toBe(0);
     });
 
 });
