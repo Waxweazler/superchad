@@ -1,5 +1,5 @@
-import {UserModel} from "./user.model";
-import { MessageType } from "./types/message.type";
+import {UserModel} from './user.model';
+import { MessageType } from './types/message.type';
 
 export abstract class AbstractMessageModel {
 

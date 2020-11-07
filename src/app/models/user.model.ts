@@ -1,4 +1,4 @@
 export class UserModel {
-    color: String;
-    name: String;
+    color: string;
+    name: string;
 }

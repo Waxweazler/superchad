@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  name: "dev",
+  name: 'dev',
   twitch: {
-    clientId: "lvu7h7ipe17rsz2qv2nvf3e2mig71y",
-    redirectUri: "http://localhost:4200/login"
+    clientId: 'lvu7h7ipe17rsz2qv2nvf3e2mig71y',
+    redirectUri: 'http://localhost:4200/login'
   }
 };

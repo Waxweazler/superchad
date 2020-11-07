@@ -1,8 +1,8 @@
-import {EventEmitter, Injectable} from "@angular/core";
-import {TwitchService} from "./twitch.service";
-import {TmiService} from "./tmi.service";
-import {environment} from "../../environments/environment";
-import {AuthType} from "../models/types/auth.type";
+import {EventEmitter, Injectable} from '@angular/core';
+import {TwitchService} from './twitch.service';
+import {TmiService} from './tmi.service';
+import {environment} from '../../environments/environment';
+import {AuthType} from '../models/types/auth.type';
 
 @Injectable({
     providedIn: 'root'
@@ -29,8 +29,8 @@ export class AuthService {
         await this.tmiService.start(accessToken, tokenInfo);
 
         this.status.emit(AuthType.TMI_JOIN_CHANNELS);
-        for (let i = 0; i < streams.length; i++) {
-            await this.tmiService.join(streams[i].channel.displayName);
+        for (const stream of streams) {
+            await this.tmiService.join(stream.channel.displayName);
         }
 
         this.authenticated = true;

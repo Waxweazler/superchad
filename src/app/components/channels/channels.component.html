@@ -2,7 +2,7 @@
     <h2 class="card-header">Channels</h2>
     <div class="card-body">
         <div class="btn-danger-wrapper">
-            <button class="btn btn-danger" type="button"
+            <button class="btn btn-danger" type="button" ngbTooltip="Leave" placement="right"
                     *ngFor="let channel of getChannels()" (click)="part(channel)">{{channel}}</button>
         </div>
     </div>
