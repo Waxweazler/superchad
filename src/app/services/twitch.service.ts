@@ -7,24 +7,24 @@ import {environment} from '../../environments/environment';
 })
 export class TwitchService {
 
-    client: ApiClient;
+    private _client: ApiClient = null;
 
     private static _getAuthProvider(accessToken: string): AuthProvider {
         return new StaticAuthProvider(environment.twitch.clientId, accessToken);
     }
 
     initialize(accessToken: string): void {
-        this.client = new ApiClient({
+        this._client = new ApiClient({
             authProvider: TwitchService._getAuthProvider(accessToken)
         });
     }
 
     async getTokenInfo(): Promise<TokenInfo> {
-        return await this.client.getTokenInfo();
+        return await this._client.getTokenInfo();
     }
 
     async getFollowedStreams(): Promise<Stream[]> {
-        return await this.client.kraken.streams.getFollowedStreams();
+        return await this._client.kraken.streams.getFollowedStreams();
     }
 
 }
