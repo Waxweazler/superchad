@@ -34,8 +34,8 @@ export class ChannelsComponent {
         return this.tmiService.getChannels();
     }
 
-    toggleChannel(channel: string): void {
-        this.channelsConfiguration.toggleChannel(channel);
+    toggleChannelHidden(channel: string): void {
+        this.channelsConfiguration.toggleHidden(channel);
     }
 
     isChannelHidden(channel: string): boolean {

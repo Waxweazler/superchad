@@ -7,7 +7,7 @@ export class ChannelsConfiguration {
 
     private _hidden: string[] = [];
 
-    toggleChannel(channel: string): void {
+    toggleHidden(channel: string): void {
         if (this.isHidden(channel)) {
             this._hidden = this._hidden.filter(c => c !== channel);
         } else {
@@ -16,7 +16,7 @@ export class ChannelsConfiguration {
     }
 
     isHidden(channel: string): boolean {
-        return this._hidden.indexOf(channel) !== -1;
+        return this._hidden.includes(channel);
     }
 
 }
