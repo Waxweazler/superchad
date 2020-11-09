@@ -42,7 +42,7 @@ export class AuthService {
     }
 
     getAuthUrl(): string {
-        return `https://id.twitch.tv/oauth2/authorize?client_id=${environment.twitch.clientId}&redirect_uri=${environment.twitch.redirectUri}&response_type=token&scope=chat%3Aread+chat%3Aedit+channel%3Amoderate+whispers%3Aread+whispers%3Aedit+channel_editor+user_read`;
+        return `https://id.twitch.tv/oauth2/authorize?client_id=${environment.twitch.clientId}&redirect_uri=${environment.twitch.redirectUri}&response_type=token&scope=chat%3Aread+chat%3Aedit+channel%3Amoderate+user_read+user_subscriptions`;
     }
 
 }

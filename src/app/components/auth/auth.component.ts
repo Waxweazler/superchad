@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import {AuthType} from '../../models/types/auth.type';
 import {ProgressModel} from '../../models/progress.model';
 
@@ -9,34 +8,13 @@ import {ProgressModel} from '../../models/progress.model';
     templateUrl: './auth.component.html',
     styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
 
     progress: ProgressModel;
 
-    private static _getFragmentParam(fragment: string, key: string): string {
-        return new URLSearchParams(fragment).get(key);
-    }
-
-    constructor(private authService: AuthService,
-                private route: ActivatedRoute,
-                private router: Router) {
-    }
-
-    ngOnInit(): void {
+    constructor(private authService: AuthService) {
         this.authService.status.subscribe((authType: AuthType) => {
             this.setProgress(authType);
-        });
-
-        // TODO: this has to be done better..
-        this.route.fragment.subscribe(fragment => {
-            const accessToken: string = AuthComponent._getFragmentParam(fragment, 'access_token');
-            if (accessToken) {
-                this.authService.authenticate(accessToken).then(() => {
-                    setTimeout(() => this.router.navigate(['/client']), 1000);
-                });
-            } else {
-                window.location.href = this.authService.getAuthUrl();
-            }
         });
     }
 

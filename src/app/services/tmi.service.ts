@@ -4,6 +4,7 @@ import {SystemMessageModel} from '../models/system.message.model';
 import {AbstractMessageModel} from '../models/abstract.message.model';
 import {UserMessageModel} from '../models/user.message.model';
 import {TokenInfo} from 'twitch-auth';
+import {CommonUtils} from '../utils/common.utils';
 
 @Injectable({
     providedIn: 'root'
@@ -12,25 +13,6 @@ export class TmiService {
 
     client: Client;
     messages: AbstractMessageModel[] = [];
-
-    private static _parseEmotes(text, emotes): string {
-        let splitText = Array.from(text);
-        for (const i in emotes) {
-            const e = emotes[i];
-            for (const j in e) {
-                let mote = e[j];
-                if (typeof mote === 'string') {
-                    mote = mote.split('-');
-                    mote = [parseInt(mote[0]), parseInt(mote[1])];
-                    const length = mote[1] - mote[0],
-                        empty = Array.apply(null, new Array(length + 1)).map(() => '');
-                    splitText = splitText.slice(0, mote[0]).concat(empty).concat(splitText.slice(mote[1] + 1, splitText.length));
-                    splitText.splice(mote[0], 1, '<img class="emoticon" src="http://static-cdn.jtvnw.net/emoticons/v1/' + i + '/1.0">');
-                }
-            }
-        }
-        return splitText.join('');
-    }
 
     async start(accessToken: string, tokenInfo: TokenInfo): Promise<void> {
         this.client = Client({
@@ -72,7 +54,7 @@ export class TmiService {
         this.client.on('chat', (channel, tags, text, self) => {
             const message = new UserMessageModel();
             message.channel = channel;
-            message.text = TmiService._parseEmotes(text, tags.emotes);
+            message.text = CommonUtils.parseEmotes(text, tags.emotes);
             message.user.name = tags['display-name'];
             message.user.color = tags.color;
             this.addMessage(message);

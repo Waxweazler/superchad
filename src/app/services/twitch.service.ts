@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ApiClient, AuthProvider, StaticAuthProvider, Stream, TokenInfo} from 'twitch';
-import {environment} from '../../environments/environment';
+import {ApiClient, Stream, TokenInfo} from 'twitch';
+import {CommonUtils} from '../utils/common.utils';
 
 @Injectable({
     providedIn: 'root'
@@ -9,13 +9,9 @@ export class TwitchService {
 
     private _client: ApiClient = null;
 
-    private static _getAuthProvider(accessToken: string): AuthProvider {
-        return new StaticAuthProvider(environment.twitch.clientId, accessToken);
-    }
-
     initialize(accessToken: string): void {
         this._client = new ApiClient({
-            authProvider: TwitchService._getAuthProvider(accessToken)
+            authProvider: CommonUtils.getAuthProvider(accessToken)
         });
     }
 
