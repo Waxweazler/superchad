@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TwitchService} from '../../services/twitch.service';
 import {AbstractMessageModel} from '../../models/abstract.message.model';
 import {MessageType} from '../../models/types/message.type';
-import {ChannelsConfiguration} from "../../configuration/channels.configuration";
+import {ChannelsConfiguration} from '../../configuration/channels.configuration';
 
 @Component({
     selector: 'app-chad',

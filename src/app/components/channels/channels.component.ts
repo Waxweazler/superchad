@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TmiService} from '../../services/tmi.service';
-import {ChannelsConfiguration} from "../../configuration/channels.configuration";
+import {ChannelsConfiguration} from '../../configuration/channels.configuration';
 
 @Component({
     selector: 'app-channels',
