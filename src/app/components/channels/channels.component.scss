@@ -1,8 +1,9 @@
-.btn-danger-wrapper {
+.dropdown-wrapper {
   $margin: 6px;
   margin: -$margin;
 
-  .btn-danger {
+  .dropdown {
+    display: inline-block;
     margin: $margin;
   }
 }

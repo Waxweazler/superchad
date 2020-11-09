@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TwitchService} from '../../services/twitch.service';
 import {AbstractMessageModel} from '../../models/abstract.message.model';
 import {MessageType} from '../../models/types/message.type';
+import {ChannelsConfiguration} from "../../configuration/channels.configuration";
 
 @Component({
     selector: 'app-chad',
@@ -25,7 +26,8 @@ export class ChadComponent implements AfterViewInit {
                 private twitchService: TwitchService,
                 private toastService: ToastService,
                 private scrollService: ScrollService,
-                private formBuilder: FormBuilder) {
+                private formBuilder: FormBuilder,
+                private channelsConfiguration: ChannelsConfiguration) {
         this.messageForm = this.formBuilder.group({
             channel: ['', Validators.required],
             message: ['', Validators.required]
@@ -42,7 +44,9 @@ export class ChadComponent implements AfterViewInit {
     }
 
     getMessages(): AbstractMessageModel[] {
-        return this.tmiService.messages;
+        return this.tmiService.messages.filter(message => {
+            return !this.channelsConfiguration.isHidden(message.channel);
+        });
     }
 
     highlight(message: AbstractMessageModel): void {

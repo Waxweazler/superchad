@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TmiService} from '../../services/tmi.service';
+import {ChannelsConfiguration} from "../../configuration/channels.configuration";
 
 @Component({
     selector: 'app-channels',
@@ -12,7 +13,8 @@ export class ChannelsComponent {
     channelsForm: FormGroup;
 
     constructor(private formBuilder: FormBuilder,
-                private tmiService: TmiService) {
+                private tmiService: TmiService,
+                private channelsConfiguration: ChannelsConfiguration) {
         this.channelsForm = this.formBuilder.group({
             channel: ['', Validators.required]
         });
@@ -30,6 +32,14 @@ export class ChannelsComponent {
 
     getChannels(): string[] {
         return this.tmiService.getChannels();
+    }
+
+    toggleChannel(channel: string): void {
+        this.channelsConfiguration.toggleChannel(channel);
+    }
+
+    isChannelHidden(channel: string): boolean {
+        return this.channelsConfiguration.isHidden(channel);
     }
 
 }

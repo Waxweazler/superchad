@@ -1,9 +1,17 @@
 <div class="card">
     <h2 class="card-header">Channels</h2>
     <div class="card-body">
-        <div class="btn-danger-wrapper">
-            <button class="btn btn-danger" type="button" ngbTooltip="Leave" placement="right"
-                    *ngFor="let channel of getChannels()" (click)="part(channel)">{{channel}}</button>
+        <div class="dropdown-wrapper">
+            <div ngbDropdown *ngFor="let channel of getChannels()">
+                <button ngbDropdownToggle class="btn" type="button" [class.btn-secondary]="!isChannelHidden(channel)"
+                        [class.btn-outline-secondary]="isChannelHidden(channel)">{{channel}}</button>
+                <div ngbDropdownMenu>
+                    <button ngbDropdownItem (click)="toggleChannel(channel)">
+                        {{isChannelHidden(channel) ? "Show" : "Hide"}}</button>
+                    <div class="dropdown-divider"></div>
+                    <button ngbDropdownItem (click)="part(channel)">Leave</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card-footer">
