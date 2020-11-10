@@ -16,7 +16,7 @@ export class ScrollService {
     onScroll(container: any, observer: (toBottom: boolean) => void): void {
         container = CommonUtils.getNativeElement(container);
         container.addEventListener('scroll', () => {
-            observer(container.scrollHeight - container.clientHeight <= container.scrollTop);
+            observer(container.scrollHeight - container.clientHeight <= container.scrollTop + 50);
         });
     }
 

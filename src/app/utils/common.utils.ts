@@ -15,7 +15,7 @@ export class CommonUtils {
         return new URLSearchParams(fragment).get(key);
     }
 
-    static parseEmotes(text, emotes): string {
+    static parseEmotes(text: string, emotes: any): string {
         let splitText = Array.from(text);
         for (const i in emotes) {
             const e = emotes[i];

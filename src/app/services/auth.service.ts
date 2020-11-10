@@ -3,6 +3,7 @@ import {TwitchService} from './twitch.service';
 import {TmiService} from './tmi.service';
 import {environment} from '../../environments/environment';
 import {AuthType} from '../models/types/auth.type';
+import {BttvService} from './bttv.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,8 @@ export class AuthService {
     status: EventEmitter<AuthType> = new EventEmitter<AuthType>();
 
     constructor(private tmiService: TmiService,
-                private twitchService: TwitchService) {
+                private twitchService: TwitchService,
+                private bttvService: BttvService) {
     }
 
     async authenticate(accessToken): Promise<void> {
@@ -32,6 +34,9 @@ export class AuthService {
         for (const stream of streams) {
             await this.tmiService.join(stream.channel.displayName);
         }
+
+        this.status.emit(AuthType.BTTV_LOAD_CONFIGURATION);
+        await this.bttvService.loadConfiguration();
 
         this.authenticated = true;
         this.status.emit(AuthType.FINISHED);

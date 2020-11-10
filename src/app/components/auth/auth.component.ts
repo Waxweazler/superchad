@@ -32,6 +32,9 @@ export class AuthComponent {
             case AuthType.TMI_JOIN_CHANNELS:
                 this.progress = {label: 'Joining live channels', value: 80};
                 break;
+            case AuthType.BTTV_LOAD_CONFIGURATION:
+                this.progress = {label: 'Loading BTTV configuration', value: 90};
+                break;
             case AuthType.FINISHED:
                 this.progress = {label: 'Enjoy :)', value: 100};
                 break;

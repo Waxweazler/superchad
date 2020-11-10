@@ -5,6 +5,9 @@
 export const environment = {
   production: false,
   name: 'dev',
+  bttv: {
+    userId: '5faa435aeca18f6455c2cb71'
+  },
   twitch: {
     clientId: 'lvu7h7ipe17rsz2qv2nvf3e2mig71y',
     redirectUri: 'http://localhost:4200/login'

@@ -12,6 +12,7 @@ import {ClientView} from './views/client/client.view';
 import {LoginView} from './views/login/login.view';
 import {AuthComponent} from './components/auth/auth.component';
 import {AuthGuard} from './guards/auth.guard';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import {AuthGuard} from './guards/auth.guard';
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         NgbModule,
         ReactiveFormsModule,
         RouterModule.forRoot([

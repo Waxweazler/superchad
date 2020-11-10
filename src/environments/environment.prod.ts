@@ -4,9 +4,12 @@
 
 export const environment = {
   production: true,
-  name: "prod",
+  name: 'prod',
+  bttv: {
+    userId: '5faa435aeca18f6455c2cb71'
+  },
   twitch: {
-    clientId: "s479twid3gpjfwk3x0z0cp6aetwsze",
-    redirectUri: "http://t-joe.de/superchad/login"
+    clientId: 's479twid3gpjfwk3x0z0cp6aetwsze',
+    redirectUri: 'http://t-joe.de/superchad/login'
   }
 };
