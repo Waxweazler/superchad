@@ -42,4 +42,12 @@ export class ChannelsComponent {
         return this.channelsConfiguration.isHidden(channel);
     }
 
+    hideAllChannelsBut(channel: string): void {
+        this.channelsConfiguration.hideAllBut(channel);
+    }
+
+    showAllChannels(): void {
+        this.channelsConfiguration.showAll();
+    }
+
 }

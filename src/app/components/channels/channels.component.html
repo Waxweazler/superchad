@@ -8,6 +8,8 @@
                 <div ngbDropdownMenu>
                     <button ngbDropdownItem (click)="toggleChannelHidden(channel)">
                         {{isChannelHidden(channel) ? "Show" : "Hide"}}</button>
+                    <button ngbDropdownItem (click)="hideAllChannelsBut(channel)">Show only</button>
+                    <button ngbDropdownItem (click)="showAllChannels()">Show all</button>
                     <div class="dropdown-divider"></div>
                     <button ngbDropdownItem (click)="part(channel)">Leave</button>
                 </div>
