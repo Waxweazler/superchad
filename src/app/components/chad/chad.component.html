@@ -7,8 +7,14 @@
                 <li class="list-group-item" *ngFor="let message of getMessages()" (click)="highlight(message)"
                     #messagesOutput>
                     <ng-container *ngIf="MessageType.USER == message.type">
-                        <span>[{{message.channel}}]</span>
-                        <<span [ngStyle]="{'color':message.user.color}">{{message.user.name}}</span>>:
+                        [{{message.channel}}]
+                        <span>
+                            <ng-container *ngFor="let badge of message.user.badges">
+                                <img [alt]="badge.title" [title]="badge.title"
+                                     [src]="badge.getImageUrl(1)"/>&ngsp;
+                            </ng-container>
+                        </span>
+                        <span [ngStyle]="{'color':message.user.color}">{{message.user.name}}</span>:
                         <span [innerHTML]="message.text"></span>
                     </ng-container>
                     <ng-container *ngIf="MessageType.SYSTEM == message.type">

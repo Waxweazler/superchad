@@ -18,11 +18,14 @@ export class AuthService {
                 private bttvService: BttvService) {
     }
 
-    async authenticate(accessToken): Promise<void> {
+    async authenticate(accessToken: string): Promise<void> {
         this.twitchService.initialize(accessToken);
 
         this.status.emit(AuthType.TWITCH_VALIDATE);
         const tokenInfo = await this.twitchService.getTokenInfo();
+
+        this.status.emit(AuthType.TWITCH_LOAD_CONFIGURATION);
+        await this.twitchService.fetchConfiguration();
 
         this.status.emit(AuthType.TWITCH_FETCH_CHANNELS);
         const streams = await this.twitchService.getFollowedStreams();

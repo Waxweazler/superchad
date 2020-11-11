@@ -6,6 +6,7 @@ import {UserMessageModel} from '../models/user.message.model';
 import {TokenInfo} from 'twitch-auth';
 import {CommonUtils} from '../utils/common.utils';
 import {BttvService} from './bttv.service';
+import {TwitchService} from './twitch.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,8 @@ export class TmiService {
     client: Client;
     messages: AbstractMessageModel[] = [];
 
-    constructor(private bttvService: BttvService) {
+    constructor(private bttvService: BttvService,
+                private twitchService: TwitchService) {
     }
 
     async start(accessToken: string, tokenInfo: TokenInfo): Promise<void> {
@@ -61,6 +63,7 @@ export class TmiService {
             message.text = this.parseMessageForEmotes(text, tags.emotes);
             message.user.name = tags['display-name'];
             message.user.color = tags.color;
+            message.user.badges = this.twitchService.parseBadges(tags['badges-raw']);
             this.addMessage(message);
         });
     }

@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './components/app.component';
 import {ChadComponent} from './components/chad/chad.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NgbDropdown, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ToastsComponent} from './components/toasts/toasts.component';
 import {ChannelsComponent} from './components/channels/channels.component';
 import {RouterModule} from '@angular/router';
@@ -35,7 +35,7 @@ import {HttpClientModule} from '@angular/common/http';
             {path: '**', redirectTo: 'client'}
         ])
     ],
-    providers: [AuthGuard, NgbDropdown],
+    providers: [AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule {

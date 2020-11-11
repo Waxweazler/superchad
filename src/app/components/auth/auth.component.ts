@@ -23,8 +23,11 @@ export class AuthComponent {
             case AuthType.TWITCH_VALIDATE:
                 this.progress = {label: 'Validating login', value: 10};
                 break;
+            case AuthType.TWITCH_LOAD_CONFIGURATION:
+                this.progress = {label: 'Loading Twitch configuration', value: 20};
+                break;
             case AuthType.TWITCH_FETCH_CHANNELS:
-                this.progress = {label: 'Fetching live channels', value: 40};
+                this.progress = {label: 'Fetching live channels', value: 30};
                 break;
             case AuthType.TMI_CONNECT:
                 this.progress = {label: 'Connecting to chat server', value: 50};
