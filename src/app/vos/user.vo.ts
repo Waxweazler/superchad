@@ -1,6 +1,6 @@
 import {ChatBadgeVersion} from 'twitch';
 
-export class UserModel {
+export class UserVO {
 
     badges: ChatBadgeVersion[] = [];
     color: string;

@@ -1,6 +1,6 @@
 import {ChatBadgeList} from 'twitch';
 
-export class BadgeModel {
+export class TwitchBadgeVO {
 
     channel: string;
     badges: ChatBadgeList;

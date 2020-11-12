@@ -1,28 +1,29 @@
 import {Injectable} from '@angular/core';
 import {Client} from 'tmi.js';
-import {SystemMessageModel} from '../models/system.message.model';
-import {AbstractMessageModel} from '../models/abstract.message.model';
-import {UserMessageModel} from '../models/user.message.model';
 import {TokenInfo} from 'twitch-auth';
 import {CommonUtils} from '../utils/common.utils';
 import {BttvService} from './bttv.service';
 import {TwitchService} from './twitch.service';
 import {Channel, User} from 'twitch';
+import {MessagesVO} from '../vos/messages.vo';
+import {SystemMessageVO} from '../vos/message.system.vo';
+import {UserMessageVO} from '../vos/message.user.vo';
+import {AbstractMessageVO} from '../vos/message.abstract.vo';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TmiService {
 
-    client: Client;
-    messages: AbstractMessageModel[] = [];
+    private _client: Client;
+    private _messages: MessagesVO = new MessagesVO();
 
     constructor(private bttvService: BttvService,
                 private twitchService: TwitchService) {
     }
 
     async start(accessToken: string, tokenInfo: TokenInfo): Promise<void> {
-        this.client = Client({
+        this._client = Client({
             options: {
                 clientId: tokenInfo.clientId,
                 debug: false
@@ -36,42 +37,42 @@ export class TmiService {
             },
             channels: [tokenInfo.userName]
         });
-        this.client.on('connected', (address, port) => {
-            this.addMessage(
+        this._client.on('connected', (address, port) => {
+            this._messages.add(
                 this.createSystemMessage(`Connected to ${address}:${port}`)
             );
         });
-        await this.client.connect();
-        this.client.on('join', (channel, username, self) => {
+        await this._client.connect();
+        this._client.on('join', (channel, username, self) => {
             if (!self) {
                 return;
             }
-            this.addMessage(
+            this._messages.add(
                 this.createSystemMessage(`You joined ${channel}`)
             );
         });
-        this.client.on('part', (channel, username, self) => {
+        this._client.on('part', (channel, username, self) => {
             if (!self) {
                 return;
             }
-            this.addMessage(
+            this._messages.add(
                 this.createSystemMessage(`You left ${channel}`)
             );
         });
-        this.client.on('chat', (channel, tags, text, self) => {
-            const message = new UserMessageModel();
+        this._client.on('chat', (channel, tags, text, self) => {
+            const message = new UserMessageVO();
             message.channel = channel;
             message.text = this.parseMessageForEmotes(text, tags.emotes);
             message.user.name = tags['display-name'];
             message.user.color = tags.color;
             message.user.badges =
                 this.twitchService.parseBadges(channel.replace('#', ''), tags['badges-raw']);
-            this.addMessage(message);
+            this._messages.add(message);
         });
     }
 
     send(channel: string, message: string): void {
-        this.client.say(channel, message);
+        this._client.say(channel, message);
     }
 
     async join(channel: string | Channel | User): Promise<string[]> {
@@ -79,28 +80,25 @@ export class TmiService {
             channel = await this.twitchService.getUserByName(channel);
         }
         await this.twitchService.fetchChannelBadges(channel);
-        return await this.client.join(channel.name);
+        return await this._client.join(channel.name);
     }
 
     part(channel: string): void {
-        this.client.part(channel);
+        this._client.part(channel);
     }
 
     getChannels(): string[] {
-        return this.client ? this.client.getChannels() : [];
+        return this._client ? this._client.getChannels() : [];
     }
 
-    private addMessage(message: AbstractMessageModel): void {
-        if (this.messages.length > 200) {
-            this.messages.shift();
-        }
-        this.messages.push(message);
+    getMessages(): AbstractMessageVO[] {
+        return this._messages.get();
     }
 
-    private createSystemMessage(text: string): SystemMessageModel {
-        const message = new SystemMessageModel();
+    private createSystemMessage(text: string): SystemMessageVO {
+        const message = new SystemMessageVO();
         message.text = text;
-        message.user.name = this.client.getUsername();
+        message.user.name = this._client.getUsername();
         return message;
     }
 

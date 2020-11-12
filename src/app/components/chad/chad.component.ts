@@ -4,9 +4,9 @@ import {ToastService} from '../../services/toast.service';
 import {ScrollService} from '../../services/scroll.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TwitchService} from '../../services/twitch.service';
-import {AbstractMessageModel} from '../../models/abstract.message.model';
 import {MessageType} from '../../models/types/message.type';
 import {ChannelsConfiguration} from '../../configuration/channels.configuration';
+import {AbstractMessageVO} from '../../vos/message.abstract.vo';
 
 @Component({
     selector: 'app-chad',
@@ -16,7 +16,7 @@ import {ChannelsConfiguration} from '../../configuration/channels.configuration'
 export class ChadComponent implements AfterViewInit {
 
     @ViewChild('scrollable', {static: false}) scrollable: ElementRef;
-    @ViewChildren('messagesOutput') messagesOutput: QueryList<AbstractMessageModel>;
+    @ViewChildren('messagesOutput') messagesOutput: QueryList<AbstractMessageVO>;
 
     scrolledToBottom = true;
     messageForm: FormGroup;
@@ -43,13 +43,13 @@ export class ChadComponent implements AfterViewInit {
         });
     }
 
-    getMessages(): AbstractMessageModel[] {
-        return this.tmiService.messages.filter(message => {
+    getMessages(): AbstractMessageVO[] {
+        return this.tmiService.getMessages().filter(message => {
             return !this.channelsConfiguration.isHidden(message.channel);
         });
     }
 
-    highlight(message: AbstractMessageModel): void {
+    highlight(message: AbstractMessageVO): void {
         this.toastService.show(message.text, {
             header: message.user.name
         });

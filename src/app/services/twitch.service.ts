@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ApiClient, Channel, ChatBadgeSet, ChatBadgeVersion, Stream, TokenInfo, User} from 'twitch';
+import {ApiClient, Channel, ChatBadgeVersion, Stream, TokenInfo, User} from 'twitch';
 import {CommonUtils} from '../utils/common.utils';
-import {TwitchModel} from '../models/twitch.model';
+import {TwitchConfigurationVO} from '../vos/twitch.configuration.vo';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +9,7 @@ import {TwitchModel} from '../models/twitch.model';
 export class TwitchService {
 
     private _client: ApiClient = null;
-    private _configuration: TwitchModel = new TwitchModel();
+    private _configuration: TwitchConfigurationVO = new TwitchConfigurationVO();
 
     initialize(accessToken: string): void {
         this._client = new ApiClient({
@@ -30,7 +30,7 @@ export class TwitchService {
     }
 
     async fetchChannelBadges(channel: Channel | User): Promise<void> {
-        this._configuration.setBadges(channel.name,
+        this._configuration.badges.add(channel.name,
             await this._client.badges.getChannelBadges(channel));
     }
 
@@ -40,10 +40,10 @@ export class TwitchService {
         }
         const badges: ChatBadgeVersion[] = [];
         rawBadges.split(',').forEach(rawBadge => {
-            const badge: string[] = rawBadge.split('/'),
-                badgeSet: ChatBadgeSet = this._configuration.getBadges(channel).getBadgeSet(badge[0]);
-            if (badgeSet.versionNames.includes(badge[1])) {
-                badges.push(badgeSet.getVersion(badge[1]));
+            const badgeData: string[] = rawBadge.split('/'),
+                badge = this._configuration.badges.get(channel, badgeData[0], badgeData[1]);
+            if (badge) {
+                badges.push(badge);
             }
         });
         return badges;
