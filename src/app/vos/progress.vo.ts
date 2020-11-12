@@ -1,4 +1,4 @@
-export class ProgressModel {
+export class ProgressVO {
 
     label: string;
     value: number;

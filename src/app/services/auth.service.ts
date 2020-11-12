@@ -2,8 +2,8 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {TwitchService} from './twitch.service';
 import {TmiService} from './tmi.service';
 import {environment} from '../../environments/environment';
-import {AuthType} from '../models/types/auth.type';
 import {BttvService} from './bttv.service';
+import {AuthType} from '../vos/types/auth.type';
 
 @Injectable({
     providedIn: 'root'

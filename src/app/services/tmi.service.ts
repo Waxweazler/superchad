@@ -34,8 +34,7 @@ export class TmiService {
             identity: {
                 username: tokenInfo.userName,
                 password: `oauth:${accessToken}`
-            },
-            channels: [tokenInfo.userName]
+            }
         });
         this._client.on('connected', (address, port) => {
             this._messages.add(

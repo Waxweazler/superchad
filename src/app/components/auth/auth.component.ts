@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {AuthType} from '../../models/types/auth.type';
-import {ProgressModel} from '../../models/progress.model';
+import {ProgressVO} from '../../vos/progress.vo';
+import {AuthType} from '../../vos/types/auth.type';
 
 @Component({
     selector: 'app-auth',
@@ -10,7 +10,7 @@ import {ProgressModel} from '../../models/progress.model';
 })
 export class AuthComponent {
 
-    progress: ProgressModel;
+    progress: ProgressVO;
 
     constructor(private authService: AuthService) {
         this.authService.status.subscribe((authType: AuthType) => {
