@@ -1,7 +1,7 @@
-import {BttvEmotesVO} from './bttv.emotes.vo';
+import {BttvUsersVO} from './bttv.users.vo';
 
 export class BttvConfigurationVO {
 
-    emotes: BttvEmotesVO = new BttvEmotesVO();
+    users: BttvUsersVO = new BttvUsersVO();
 
 }

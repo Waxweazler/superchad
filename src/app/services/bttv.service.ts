@@ -19,11 +19,11 @@ export class BttvService {
     async loadConfiguration(): Promise<void> {
         const user = await this.http.get<BttvUserResponse>(`https://api.betterttv.net/3/users/${environment.bttv.userId}`)
             .pipe(map(response => BttvUserVO.fromResponse(response))).toPromise();
-        this._configuration.emotes.add(user.emotes);
+        this._configuration.users.add(user);
     }
 
     parseMessage(message: string): string {
-        this._configuration.emotes.get().forEach(emote => {
+        this._configuration.users.getAllEmotes().forEach(emote => {
             message = message.replace(new RegExp(emote.code, 'g'),
                 `<img alt="${emote.code}" title="${emote.code}" src="${emote.getImageUrl()}"/>`);
         });
