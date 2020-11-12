@@ -24,8 +24,8 @@ export class AuthService {
         this.status.emit(AuthType.TWITCH_VALIDATE);
         const tokenInfo = await this.twitchService.getTokenInfo();
 
-        this.status.emit(AuthType.TWITCH_LOAD_CONFIGURATION);
-        await this.twitchService.fetchConfiguration();
+        this.status.emit(AuthType.BTTV_LOAD_CONFIGURATION);
+        await this.bttvService.loadConfiguration();
 
         this.status.emit(AuthType.TWITCH_FETCH_CHANNELS);
         const streams = await this.twitchService.getFollowedStreams();
@@ -35,11 +35,8 @@ export class AuthService {
 
         this.status.emit(AuthType.TMI_JOIN_CHANNELS);
         for (const stream of streams) {
-            await this.tmiService.join(stream.channel.displayName);
+            await this.tmiService.join(stream.channel);
         }
-
-        this.status.emit(AuthType.BTTV_LOAD_CONFIGURATION);
-        await this.bttvService.loadConfiguration();
 
         this.authenticated = true;
         this.status.emit(AuthType.FINISHED);

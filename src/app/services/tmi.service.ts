@@ -7,6 +7,7 @@ import {TokenInfo} from 'twitch-auth';
 import {CommonUtils} from '../utils/common.utils';
 import {BttvService} from './bttv.service';
 import {TwitchService} from './twitch.service';
+import {Channel, User} from 'twitch';
 
 @Injectable({
     providedIn: 'root'
@@ -63,7 +64,8 @@ export class TmiService {
             message.text = this.parseMessageForEmotes(text, tags.emotes);
             message.user.name = tags['display-name'];
             message.user.color = tags.color;
-            message.user.badges = this.twitchService.parseBadges(tags['badges-raw']);
+            message.user.badges =
+                this.twitchService.parseBadges(channel.replace('#', ''), tags['badges-raw']);
             this.addMessage(message);
         });
     }
@@ -72,8 +74,12 @@ export class TmiService {
         this.client.say(channel, message);
     }
 
-    async join(channel: string): Promise<string[]> {
-        return await this.client.join(channel);
+    async join(channel: string | Channel | User): Promise<string[]> {
+        if (typeof channel === 'string') {
+            channel = await this.twitchService.getUserByName(channel);
+        }
+        await this.twitchService.fetchChannelBadges(channel);
+        return await this.client.join(channel.name);
     }
 
     part(channel: string): void {

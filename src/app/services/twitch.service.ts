@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ApiClient, ChatBadgeList, ChatBadgeSet, ChatBadgeVersion, Stream, TokenInfo} from 'twitch';
+import {ApiClient, Channel, ChatBadgeSet, ChatBadgeVersion, Stream, TokenInfo, User} from 'twitch';
 import {CommonUtils} from '../utils/common.utils';
 import {TwitchModel} from '../models/twitch.model';
 
@@ -17,35 +17,36 @@ export class TwitchService {
         });
     }
 
-    async getTokenInfo(): Promise<TokenInfo> {
-        return await this._client.getTokenInfo();
-    }
-
     async getFollowedStreams(): Promise<Stream[]> {
         return await this._client.kraken.streams.getFollowedStreams();
     }
 
-    async fetchConfiguration(): Promise<void> {
-        this._configuration.globalBadges = await this._fetchGlobalBadges();
+    async getUserByName(name: string): Promise<User> {
+        return await this._client.kraken.users.getUserByName(name);
     }
 
-    private async _fetchGlobalBadges(): Promise<ChatBadgeList> {
-        return await this._client.badges.getGlobalBadges();
+    async getTokenInfo(): Promise<TokenInfo> {
+        return await this._client.getTokenInfo();
     }
 
-    parseBadges(rawBadges: string): ChatBadgeVersion[] {
+    async fetchChannelBadges(channel: Channel | User): Promise<void> {
+        this._configuration.setBadges(channel.name,
+            await this._client.badges.getChannelBadges(channel));
+    }
+
+    parseBadges(channel: string, rawBadges: string): ChatBadgeVersion[] {
         if (!rawBadges) {
             return [];
         }
-        const globalBadges: ChatBadgeVersion[] = [];
+        const badges: ChatBadgeVersion[] = [];
         rawBadges.split(',').forEach(rawBadge => {
             const badge: string[] = rawBadge.split('/'),
-                badgeSet: ChatBadgeSet = this._configuration.globalBadges.getBadgeSet(badge[0]);
+                badgeSet: ChatBadgeSet = this._configuration.getBadges(channel).getBadgeSet(badge[0]);
             if (badgeSet.versionNames.includes(badge[1])) {
-                globalBadges.push(badgeSet.getVersion(badge[1]));
+                badges.push(badgeSet.getVersion(badge[1]));
             }
         });
-        return globalBadges;
+        return badges;
     }
 
 }

@@ -23,8 +23,8 @@ export class AuthComponent {
             case AuthType.TWITCH_VALIDATE:
                 this.progress = {label: 'Validating login', value: 10};
                 break;
-            case AuthType.TWITCH_LOAD_CONFIGURATION:
-                this.progress = {label: 'Loading Twitch configuration', value: 20};
+            case AuthType.BTTV_LOAD_CONFIGURATION:
+                this.progress = {label: 'Loading BTTV configuration', value: 20};
                 break;
             case AuthType.TWITCH_FETCH_CHANNELS:
                 this.progress = {label: 'Fetching live channels', value: 30};
@@ -34,9 +34,6 @@ export class AuthComponent {
                 break;
             case AuthType.TMI_JOIN_CHANNELS:
                 this.progress = {label: 'Joining live channels', value: 80};
-                break;
-            case AuthType.BTTV_LOAD_CONFIGURATION:
-                this.progress = {label: 'Loading BTTV configuration', value: 90};
                 break;
             case AuthType.FINISHED:
                 this.progress = {label: 'Enjoy :)', value: 100};
