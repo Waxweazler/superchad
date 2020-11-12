@@ -1,5 +1,5 @@
 import {UserVO} from './user.vo';
-import {MessageType} from '../models/types/message.type';
+import {MessageType} from './types/message.type';
 
 export abstract class AbstractMessageVO {
 

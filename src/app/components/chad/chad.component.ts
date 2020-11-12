@@ -4,9 +4,9 @@ import {ToastService} from '../../services/toast.service';
 import {ScrollService} from '../../services/scroll.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TwitchService} from '../../services/twitch.service';
-import {MessageType} from '../../models/types/message.type';
 import {ChannelsConfiguration} from '../../configuration/channels.configuration';
 import {AbstractMessageVO} from '../../vos/message.abstract.vo';
+import {MessageType} from '../../vos/types/message.type';
 
 @Component({
     selector: 'app-chad',

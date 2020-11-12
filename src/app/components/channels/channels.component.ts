@@ -21,8 +21,10 @@ export class ChannelsComponent {
     }
 
     join(): void {
+        this.channelsForm.disable();
         this.tmiService.join(this.channelsForm.value.channel).then(() => {
             this.channelsForm.reset();
+            this.channelsForm.enable();
         });
     }
 
