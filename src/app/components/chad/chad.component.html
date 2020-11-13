@@ -36,7 +36,8 @@
                         <option *ngFor="let channel of getChannels();" value="{{channel}}">{{channel}}</option>
                     </select>
                 </div>
-                <input type="text" formControlName="message" class="form-control" placeholder="Enter message">
+                <input #messageInput type="text" formControlName="message" class="form-control"
+                       placeholder="Enter message"/>
                 <div class="input-group-append">
                     <button class="btn btn-success" type="submit" [disabled]="!messageForm.valid">Send</button>
                 </div>

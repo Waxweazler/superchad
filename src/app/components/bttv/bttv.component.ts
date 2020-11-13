@@ -17,7 +17,7 @@ export class BttvComponent {
     }
 
     selectEmote(emote: BttvEmoteVO): void {
-        alert(`BTTV emote selected: ${emote.code}`);
+        this._bttvService.broadcastEmoteSelection(emote);
     }
 
 }

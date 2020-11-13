@@ -16,7 +16,7 @@ describe('ToastsComponent', () => {
     }
 
     function queryDisplayedToastElements(): NodeListOf<HTMLElement> {
-        return fixtureElement.querySelectorAll('.toast.show');
+        return fixtureElement.querySelectorAll('.toast.show,.toast.showing');
     }
 
     beforeEach(() => {
@@ -56,7 +56,7 @@ describe('ToastsComponent', () => {
 
         toastServiceSpy.getToasts.and.returnValue([createToast()]);
         fixture.detectChanges();
-
+        console.log(fixtureElement);
         expect(queryDisplayedToastElements().length).toBe(1);
     });
 

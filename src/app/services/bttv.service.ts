@@ -6,6 +6,7 @@ import {BttvUserVO} from '../vos/bttv.user.vo';
 import {map} from 'rxjs/operators';
 import {BttvUserResponse} from '../definitions/bttv';
 import {BttvEmoteVO} from '../vos/bttv.emote.vo';
+import {Subject} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +14,7 @@ import {BttvEmoteVO} from '../vos/bttv.emote.vo';
 export class BttvService {
 
     private _configuration: BttvConfigurationVO = new BttvConfigurationVO();
+    private _emoteSubject: Subject<BttvEmoteVO> = new Subject<BttvEmoteVO>();
 
     constructor(private http: HttpClient) {
     }
@@ -33,6 +35,14 @@ export class BttvService {
                 `<img alt="${emote.code}" title="${emote.code}" src="${emote.getImageUrl()}"/>`);
         });
         return message;
+    }
+
+    broadcastEmoteSelection(emote: BttvEmoteVO): void {
+        this._emoteSubject.next(emote);
+    }
+
+    observeEmoteSelection(observer: (emote: BttvEmoteVO) => void): void {
+        this._emoteSubject.subscribe(observer);
     }
 
 }

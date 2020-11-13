@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {TmiService} from '../../services/tmi.service';
 import {ToastService} from '../../services/toast.service';
 import {ScrollService} from '../../services/scroll.service';
@@ -8,15 +8,18 @@ import {ChannelsConfiguration} from '../../configuration/channels.configuration'
 import {AbstractMessageVO} from '../../vos/message.abstract.vo';
 import {MessageType} from '../../vos/types/message.type';
 import {ChadConfiguration} from '../../configuration/chad.configuration';
+import {BttvService} from '../../services/bttv.service';
+import {BttvEmoteVO} from '../../vos/bttv.emote.vo';
 
 @Component({
     selector: 'app-chad',
     templateUrl: './chad.component.html',
     styleUrls: ['./chad.component.scss']
 })
-export class ChadComponent implements AfterViewInit {
+export class ChadComponent implements AfterViewInit, OnInit {
 
-    @ViewChild('scrollable', {static: false}) scrollable: ElementRef;
+    @ViewChild('scrollable') scrollable: ElementRef;
+    @ViewChild('messageInput', {static: true}) messageInput: ElementRef;
     @ViewChildren('messagesOutput') messagesOutput: QueryList<AbstractMessageVO>;
 
     scrolledToBottom = true;
@@ -29,11 +32,16 @@ export class ChadComponent implements AfterViewInit {
                 private scrollService: ScrollService,
                 private formBuilder: FormBuilder,
                 private channelsConfiguration: ChannelsConfiguration,
-                private chadConfiguration: ChadConfiguration) {
+                private chadConfiguration: ChadConfiguration,
+                private bttvService: BttvService) {
         this.messageForm = this.formBuilder.group({
             channel: ['', Validators.required],
             message: ['', Validators.required]
         });
+    }
+
+    ngOnInit(): void {
+        this.bttvService.observeEmoteSelection(emote => this._onEmoteSelection(emote));
     }
 
     ngAfterViewInit(): void {
@@ -70,13 +78,26 @@ export class ChadComponent implements AfterViewInit {
     }
 
     send(): void {
-        this.tmiService.send(this.getMessageFormValues().channel, this.getMessageFormValues().message);
-        this.messageForm.reset({
-            channel: this.getMessageFormValues().channel
+        this.tmiService.send(this._getMessageFormValues().channel, this._getMessageFormValues().message);
+        this._changeMessageInputValue('');
+    }
+
+    private _onEmoteSelection(emote: BttvEmoteVO): void {
+        this._changeMessageInputValue(this._getMessageFormValues().message.concat(emote.code, ' '));
+        this._focusMessageInput();
+    }
+
+    private _changeMessageInputValue(value: string): void {
+        this.messageForm.patchValue({
+            message: value
         });
     }
 
-    private getMessageFormValues(): any {
+    private _focusMessageInput(): void {
+        this.messageInput.nativeElement.focus();
+    }
+
+    private _getMessageFormValues(): any {
         return this.messageForm.value;
     }
 
