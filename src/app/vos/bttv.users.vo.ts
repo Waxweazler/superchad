@@ -9,7 +9,7 @@ export class BttvUsersVO {
         this._data.push(user);
     }
 
-    getAllEmotes(): BttvEmoteVO[] {
+    getAllEmotes(): ReadonlyArray<BttvEmoteVO> {
         const result: BttvEmoteVO[] = [];
         this._data.forEach(user => {
             Array.prototype.push.apply(result, user.emotes);

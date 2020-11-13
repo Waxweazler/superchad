@@ -15,3 +15,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 * Reload metadata on explicit interaction or interval
 * Card with BTTV emotes to select for message (collapsed)
 * Optimized responsive design
+* "Persist" badge configuration in local storage

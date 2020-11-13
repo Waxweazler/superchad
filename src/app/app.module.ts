@@ -13,11 +13,13 @@ import {LoginView} from './views/login/login.view';
 import {AuthComponent} from './components/auth/auth.component';
 import {AuthGuard} from './guards/auth.guard';
 import {HttpClientModule} from '@angular/common/http';
+import {BttvComponent} from './components/bttv/bttv.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         AuthComponent,
+        BttvComponent,
         ChadComponent,
         ChannelsComponent,
         ToastsComponent,

@@ -25,7 +25,7 @@ export class AuthService {
         const tokenInfo = await this.twitchService.getTokenInfo();
 
         this.status.emit(AuthType.BTTV_LOAD_CONFIGURATION);
-        await this.bttvService.loadConfiguration();
+        await this.bttvService.fetchConfiguration();
 
         this.status.emit(AuthType.TWITCH_FETCH_CHANNELS);
         const streams = await this.twitchService.getFollowedStreams();
