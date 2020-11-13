@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 })
 export class ChadConfiguration {
 
-    private _messageHistoryCount = 200;
+    private _messageHistoryCount = 500;
 
     getMessageHistoryCount(): number {
         return this._messageHistoryCount;
