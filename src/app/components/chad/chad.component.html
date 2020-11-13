@@ -6,7 +6,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" *ngFor="let message of getMessages() | slice:-getMessageHistoryCount()"
                     (click)="highlight(message)" #messagesOutput>
-                    {{message.date | date:'HH:mm:ss'}}
+                    <span class="text-muted">{{message.date | date:'HH:mm:ss'}}</span>
                     <ng-container *ngIf="MessageType.USER == message.type">
                         [{{message.channel}}]
                         <span>
