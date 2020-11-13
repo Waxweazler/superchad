@@ -26,6 +26,16 @@ body {
   }
 }
 
+.list-inline {
+  $gutter-width: 5px;
+  margin: -$gutter-width/2;
+
+  &-item {
+    margin: 0 !important;
+    padding: $gutter-width/2;
+  }
+}
+
 .scrollable {
   overflow-y: auto;
 }

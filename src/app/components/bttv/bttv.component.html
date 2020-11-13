@@ -1,7 +1,7 @@
 <div class="card">
     <h2 class="card-header">BTTV</h2>
     <div class="card-body text-center">
-        <ul class="list-inline mb-0">
+        <ul class="list-inline">
             <li class="list-inline-item" *ngFor="let emote of getEmotes()">
                 <a href="javascript:void(0);" (click)="selectEmote(emote)">
                     <img [alt]="emote.code" [src]="emote.getImageUrl()" [title]="emote.code"/>

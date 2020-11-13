@@ -1,9 +1,10 @@
 <div class="card">
     <h2 class="card-header">Channels</h2>
     <div class="card-body">
-        <div class="dropdown-wrapper">
-            <div ngbDropdown *ngFor="let channel of getChannels()">
-                <button ngbDropdownToggle class="btn" type="button" [class.btn-secondary]="!isChannelHidden(channel)"
+        <ul class="list-inline">
+            <li class="list-inline-item" *ngFor="let channel of getChannels()" ngbDropdown>
+                <button ngbDropdownToggle class="btn" type="button"
+                        [class.btn-secondary]="!isChannelHidden(channel)"
                         [class.btn-outline-secondary]="isChannelHidden(channel)" [innerHTML]="channel"></button>
                 <div ngbDropdownMenu>
                     <button ngbDropdownItem (click)="toggleChannelHidden(channel)">
@@ -13,8 +14,8 @@
                     <div class="dropdown-divider"></div>
                     <button ngbDropdownItem (click)="part(channel)">Leave</button>
                 </div>
-            </div>
-        </div>
+            </li>
+        </ul>
     </div>
     <div class="card-footer">
         <form [formGroup]="channelsForm" (ngSubmit)="join()">
