@@ -7,6 +7,7 @@ import {TwitchService} from '../../services/twitch.service';
 import {ChannelsConfiguration} from '../../configuration/channels.configuration';
 import {AbstractMessageVO} from '../../vos/message.abstract.vo';
 import {MessageType} from '../../vos/types/message.type';
+import {ChadConfiguration} from '../../configuration/chad.configuration';
 
 @Component({
     selector: 'app-chad',
@@ -27,7 +28,8 @@ export class ChadComponent implements AfterViewInit {
                 private toastService: ToastService,
                 private scrollService: ScrollService,
                 private formBuilder: FormBuilder,
-                private channelsConfiguration: ChannelsConfiguration) {
+                private channelsConfiguration: ChannelsConfiguration,
+                private chadConfiguration: ChadConfiguration) {
         this.messageForm = this.formBuilder.group({
             channel: ['', Validators.required],
             message: ['', Validators.required]
@@ -47,6 +49,10 @@ export class ChadComponent implements AfterViewInit {
         return this.tmiService.getMessages().filter(message => {
             return !this.channelsConfiguration.isHidden(message.channel);
         });
+    }
+
+    getMessageHistoryCount(): number {
+        return this.chadConfiguration.getMessageHistoryCount();
     }
 
     highlight(message: AbstractMessageVO): void {

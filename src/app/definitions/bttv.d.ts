@@ -1,7 +1,7 @@
 export interface BttvUserResponse extends BttvUser {
 
     bots: Array<any>,
-    channelEmotes: Array<BttvEmoteResponse>
+    channelEmotes: Array<BttvEmoteResponse>,
     sharedEmotes: Array<BttvEmoteResponse>
 
 }

@@ -90,7 +90,7 @@ export class TmiService {
         return this._client ? this._client.getChannels() : [];
     }
 
-    getMessages(): AbstractMessageVO[] {
+    getMessages(): ReadonlyArray<AbstractMessageVO> {
         return this._messages.get();
     }
 
