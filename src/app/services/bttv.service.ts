@@ -6,6 +6,8 @@ import {BttvUserResponse} from '../definitions/bttv';
 import {BttvEmoteVO} from '../vos/bttv.emote.vo';
 import {Subject} from 'rxjs';
 import {BttvUserVO} from '../vos/bttv.user.vo';
+import {CacheService} from './cache.service';
+import {CacheType} from '../vos/types/cache.type';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +17,8 @@ export class BttvService {
     private _configuration: BttvConfigurationVO = new BttvConfigurationVO();
     private _emoteSubject: Subject<BttvEmoteVO> = new Subject<BttvEmoteVO>();
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private cacheService: CacheService) {
     }
 
     async fetchConfiguration(): Promise<void> {
@@ -26,7 +29,8 @@ export class BttvService {
     }
 
     getEmotes(): BttvEmoteVO[] {
-        return this._configuration.users.getAllEmotes();
+        return this.cacheService.getOrElse(CacheType.BTTV_EMOTES,
+            () => this._configuration.users.emotes);
     }
 
     parseMessage(message: string): string {
