@@ -1,14 +1,14 @@
-import {AbstractMessageVO} from './message.abstract.vo';
+import {MessageVO} from './message.vo';
 
 export class MessagesVO {
 
-    private _data: AbstractMessageVO[] = [];
+    private _data: MessageVO[] = [];
 
-    add(message: AbstractMessageVO): void {
+    add(message: MessageVO): void {
         this._data.push(message);
     }
 
-    get(): ReadonlyArray<AbstractMessageVO> {
+    get(): ReadonlyArray<MessageVO> {
         return this._data;
     }
 

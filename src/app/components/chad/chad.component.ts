@@ -5,11 +5,11 @@ import {ScrollService} from '../../services/scroll.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TwitchService} from '../../services/twitch.service';
 import {ChannelsConfiguration} from '../../configuration/channels.configuration';
-import {AbstractMessageVO} from '../../vos/message.abstract.vo';
 import {MessageType} from '../../vos/types/message.type';
 import {ChadConfiguration} from '../../configuration/chad.configuration';
 import {BttvService} from '../../services/bttv.service';
 import {BttvEmoteVO} from '../../vos/bttv.emote.vo';
+import {MessageVO} from '../../vos/message.vo';
 
 @Component({
     selector: 'app-chad',
@@ -20,7 +20,7 @@ export class ChadComponent implements AfterViewInit, OnInit {
 
     @ViewChild('scrollable') scrollable: ElementRef;
     @ViewChild('messageInput', {static: true}) messageInput: ElementRef;
-    @ViewChildren('messagesOutput') messagesOutput: QueryList<AbstractMessageVO>;
+    @ViewChildren('messagesOutput') messagesOutput: QueryList<MessageVO>;
 
     scrolledToBottom = true;
     messageForm: FormGroup;
@@ -53,7 +53,7 @@ export class ChadComponent implements AfterViewInit, OnInit {
         });
     }
 
-    getMessages(): AbstractMessageVO[] {
+    getMessages(): MessageVO[] {
         return this.tmiService.getMessages().filter(message => {
             return !this.channelsConfiguration.isHidden(message.channel);
         });
@@ -63,7 +63,7 @@ export class ChadComponent implements AfterViewInit, OnInit {
         return this.chadConfiguration.getMessageHistoryCount();
     }
 
-    highlight(message: AbstractMessageVO): void {
+    highlight(message: MessageVO): void {
         this.toastService.show(message.text, {
             header: message.user.name
         });

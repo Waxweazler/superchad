@@ -6,9 +6,7 @@ import {BttvService} from './bttv.service';
 import {TwitchService} from './twitch.service';
 import {Channel, User} from 'twitch';
 import {MessagesVO} from '../vos/messages.vo';
-import {SystemMessageVO} from '../vos/message.system.vo';
-import {UserMessageVO} from '../vos/message.user.vo';
-import {AbstractMessageVO} from '../vos/message.abstract.vo';
+import {MessageVO, SystemMessageVO, UserMessageVO} from '../vos/message.vo';
 
 @Injectable({
     providedIn: 'root'
@@ -90,7 +88,7 @@ export class TmiService {
         return this._client ? this._client.getChannels() : [];
     }
 
-    getMessages(): ReadonlyArray<AbstractMessageVO> {
+    getMessages(): ReadonlyArray<MessageVO> {
         return this._messages.get();
     }
 

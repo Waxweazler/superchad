@@ -1,8 +1,7 @@
 import {UserVO} from './user.vo';
 import {MessageType} from './types/message.type';
-import {formatDate} from "@angular/common";
 
-export abstract class AbstractMessageVO {
+export abstract class MessageVO {
 
     constructor() {
         this.date = new Date();
@@ -14,4 +13,12 @@ export abstract class AbstractMessageVO {
     text: string;
     abstract type: MessageType;
 
+}
+
+export class UserMessageVO extends MessageVO {
+    type: MessageType = MessageType.USER;
+}
+
+export class SystemMessageVO extends MessageVO {
+    type: MessageType = MessageType.SYSTEM;
 }
