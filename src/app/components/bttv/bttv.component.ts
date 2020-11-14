@@ -12,7 +12,7 @@ export class BttvComponent {
     constructor(private _bttvService: BttvService) {
     }
 
-    getEmotes(): ReadonlyArray<BttvEmoteVO> {
+    getEmotes(): BttvEmoteVO[] {
         return this._bttvService.getEmotes();
     }
 

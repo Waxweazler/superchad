@@ -4,17 +4,21 @@ import {BttvUserVO} from './bttv.user.vo';
 export class BttvUsersVO {
 
     private _data: BttvUserVO[] = [];
+    private _emotesCache: BttvEmoteVO[];
 
     add(user: BttvUserVO): void {
         this._data.push(user);
     }
 
-    getAllEmotes(): ReadonlyArray<BttvEmoteVO> {
-        const result: BttvEmoteVO[] = [];
+    getAllEmotes(): BttvEmoteVO[] {
+        if (this._emotesCache) {
+            return this._emotesCache;
+        }
+        this._emotesCache = [];
         this._data.forEach(user => {
-            Array.prototype.push.apply(result, user.emotes);
+            this._emotesCache = this._emotesCache.concat(user.emotes);
         });
-        return result;
+        return this._emotesCache;
     }
 
 }

@@ -4,7 +4,7 @@
         <ul class="list-inline">
             <li class="list-inline-item" *ngFor="let emote of getEmotes()">
                 <a href="javascript:void(0);" (click)="selectEmote(emote)">
-                    <img [alt]="emote.code" [src]="emote.getImageUrl()" [title]="emote.code"/>
+                    <img [alt]="emote.code" [src]="emote.imageUrl" [title]="emote.code"/>
                 </a>
             </li>
         </ul>

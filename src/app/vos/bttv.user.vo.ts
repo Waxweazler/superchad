@@ -1,19 +1,16 @@
-import {BttvEmoteVO} from './bttv.emote.vo';
 import {BttvUserResponse} from '../definitions/bttv';
+import {BttvEmoteVO} from './bttv.emote.vo';
 
 export class BttvUserVO {
 
-    emotes: BttvEmoteVO[] = [];
+    private readonly _data: BttvUserResponse;
 
-    static fromResponse(response: BttvUserResponse): BttvUserVO {
-        const user = new BttvUserVO();
-        response.sharedEmotes.forEach(r => {
-            const emote = new BttvEmoteVO();
-            emote.id = r.id;
-            emote.code = r.code;
-            user.emotes.push(emote);
-        });
-        return user;
+    constructor(_data: BttvUserResponse) {
+        this._data = _data;
+    }
+
+    get emotes(): BttvEmoteVO[] {
+        return this._data.sharedEmotes.map(emote => new BttvEmoteVO(emote));
     }
 
 }

@@ -1,10 +1,19 @@
+import {BttvEmoteResponse} from '../definitions/bttv';
+
 export class BttvEmoteVO {
 
-    id: string;
-    code: string;
+    private readonly _data: BttvEmoteResponse;
 
-    getImageUrl(): string {
-        return `https://cdn.betterttv.net/emote/${this.id}/1x`;
+    constructor(_data: BttvEmoteResponse) {
+        this._data = _data;
+    }
+
+    get code(): string {
+        return this._data.code;
+    }
+
+    get imageUrl(): string {
+        return `https://cdn.betterttv.net/emote/${this._data.id}/1x`;
     }
 
 }
