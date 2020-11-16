@@ -13,9 +13,7 @@ export class AuthComponent {
     progress: ProgressVO;
 
     constructor(private authService: AuthService) {
-        this.authService.status.subscribe((authType: AuthType) => {
-            this.setProgress(authType);
-        });
+        this.authService.observeStatus(authType => this.setProgress(authType));
     }
 
     private setProgress(authType: AuthType): void {
