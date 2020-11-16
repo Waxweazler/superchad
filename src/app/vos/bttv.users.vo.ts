@@ -11,13 +11,12 @@ export class BttvUsersVO {
     }
 
     get emotes(): BttvEmoteVO[] {
-        if (this._emotes) {
-            return this._emotes;
+        if (!this._emotes) {
+            this._emotes = [];
+            this._data.forEach(user => {
+                this._emotes = this._emotes.concat(user.emotes);
+            });
         }
-        this._emotes = [];
-        this._data.forEach(user => {
-            this._emotes = this._emotes.concat(user.emotes);
-        });
         return this._emotes;
     }
 

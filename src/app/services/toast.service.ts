@@ -6,18 +6,18 @@ import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ToastService {
 
-    private toasts: NgbToast[] = [];
+    private _toasts: NgbToast[] = [];
 
     show(textOrTpl: string, options: any = {}): void {
-        this.toasts.push({textOrTpl, ...options});
+        this._toasts.push({textOrTpl, ...options});
     }
 
     remove(toast): void {
-        this.toasts = this.toasts.filter(t => t !== toast);
+        this._toasts = this._toasts.filter(t => t !== toast);
     }
 
     getToasts(): NgbToast[] {
-        return this.toasts;
+        return this._toasts;
     }
 
 }

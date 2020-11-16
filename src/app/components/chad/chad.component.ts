@@ -3,7 +3,6 @@ import {TmiService} from '../../services/tmi.service';
 import {ToastService} from '../../services/toast.service';
 import {ScrollService} from '../../services/scroll.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TwitchService} from '../../services/twitch.service';
 import {ChannelsConfiguration} from '../../configuration/channels.configuration';
 import {MessageType} from '../../vos/types/message.type';
 import {ChadConfiguration} from '../../configuration/chad.configuration';
@@ -27,7 +26,6 @@ export class ChadComponent implements AfterViewInit, OnInit {
     MessageType = MessageType;
 
     constructor(private tmiService: TmiService,
-                private twitchService: TwitchService,
                 private toastService: ToastService,
                 private scrollService: ScrollService,
                 private formBuilder: FormBuilder,

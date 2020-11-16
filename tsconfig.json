@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "module": "es2020",
     "moduleResolution": "node",
-    "target": "es2015",
-    "module": "es2020"
+    "noUnusedLocals": true,
+    "target": "es2015"
   }
 }
