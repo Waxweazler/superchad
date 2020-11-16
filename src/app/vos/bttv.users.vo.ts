@@ -4,17 +4,21 @@ import {BttvUserVO} from './bttv.user.vo';
 export class BttvUsersVO {
 
     private _data: BttvUserVO[] = [];
+    private _emotes: BttvEmoteVO[];
 
     add(user: BttvUserVO): void {
         this._data.push(user);
     }
 
     get emotes(): BttvEmoteVO[] {
-        let emotes = [];
+        if (this._emotes) {
+            return this._emotes;
+        }
+        this._emotes = [];
         this._data.forEach(user => {
-            emotes = emotes.concat(user.emotes);
+            this._emotes = this._emotes.concat(user.emotes);
         });
-        return emotes;
+        return this._emotes;
     }
 
 }
